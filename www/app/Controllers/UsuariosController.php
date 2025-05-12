@@ -15,8 +15,16 @@ class UsuariosController extends LoggedController
         $this->usuarioModel = new UsuarioModel();
     }
 
+    public function index(){
+        return view('home/index');
+    }
+
     public function ver($id)
-    {
+    {   
+        if($id !== $this->loggedUser['usuario_id']){
+            return redirect()->to('/usuarios')->with('error', 'Usuario no encontrado');
+        }
+
         $usuario = $this->usuarioModel->getUsuarioById($id);
         
         if (!$usuario) {

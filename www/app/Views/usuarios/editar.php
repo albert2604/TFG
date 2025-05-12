@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('usuarios/editar/' . $usuario->getId()) ?>" method="post">
+                    <form action="<?= base_url('usuarios/doEditar/' . $usuario->getId()) ?>" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">

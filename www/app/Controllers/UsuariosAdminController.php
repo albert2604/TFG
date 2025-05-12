@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\UsuarioModel;
@@ -23,81 +24,124 @@ class UsuariosAdminController extends AdminController
 
     public function crear()
     {
-        if ($this->request->getMethod() === 'post') {
-            $usuario = new Usuario([
-                'nombre' => $this->request->getPost('nombre'),
-                'apellidos' => $this->request->getPost('apellidos'),
-                'email' => $this->request->getPost('email'),
-                'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-                'telefono' => $this->request->getPost('telefono'),
-                'rol' => $this->request->getPost('rol'),
-                'estado' => $this->request->getPost('estado') ?? 'activo'
-            ]);
+        return view('usuarios/admin/crear');
+    }
 
-            $resultado = $this->usuarioModel->crearUsuario($usuario);
-            
-            if ($resultado) {
-                return redirect()->to('/usuarios')->with('success', 'Usuario creado exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al crear el usuario');
+    public function doCrear()
+    {       
+        //VALIDAMOS LA ENTRADA DEL USUARIO
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'email' => 'required|valid_email',
+            'password' => 'required',
+            'telefono' => 'required',
+        ]);
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            return view('auth/register', [
+                'validation' => $validation
+            ]);
         }
 
-        return view('usuarios/crear');
+        //SI TODO ES CORRECTO CREAMOS USUARIO
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'apellidos' => $this->request->getPost('apellidos'),
+            'email' => $this->request->getPost('email'),
+            'contrasena' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'telefono' => $this->request->getPost('telefono'),
+            'rol' => $this->request->getPost('rol'),
+            'estado' => $this->request->getPost('estado')
+        ];
+
+        $user = $this->usuarioModel->crearUsuario($data);
+        if ($user['id']) {
+            return redirect()->to('usuarios/admin/index');
+        }
     }
 
     public function editar($id)
     {
         $usuario = $this->usuarioModel->getUsuarioById($id);
-        
+
         if (!$usuario) {
             return redirect()->to('/usuarios')->with('error', 'Usuario no encontrado');
         }
 
-        if ($this->request->getMethod() === 'post') {
-            $usuario->setNombre($this->request->getPost('nombre'));
-            $usuario->setApellidos($this->request->getPost('apellidos'));
-            $usuario->setEmail($this->request->getPost('email'));
-            $usuario->setTelefono($this->request->getPost('telefono'));
-            $usuario->setRol($this->request->getPost('rol'));
-            $usuario->setEstado($this->request->getPost('estado'));
-
-            // Si se proporciona una nueva contraseña, actualizarla
-            if ($password = $this->request->getPost('password')) {
-                $usuario->setPassword(password_hash($password, PASSWORD_DEFAULT));
-            }
-
-            $resultado = $this->usuarioModel->actualizarUsuario($usuario);
-            
-            if ($resultado) {
-                return redirect()->to('/usuarios')->with('success', 'Usuario actualizado exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al actualizar el usuario');
-        }
-
-        return view('usuarios/editar', ['usuario' => $usuario]);
+        return view('usuarios/admin/editar', ['usuario' => new Usuario($usuario)]);
     }
 
-    public function eliminar($id)
+    public function doEditar($id)
     {
-        $resultado = $this->usuarioModel->eliminarUsuario($id);
-        
-        if ($resultado) {
-            return redirect()->to('/usuarios')->with('success', 'Usuario eliminado exitosamente');
+        $usuario = $this->usuarioModel->getUsuarioById($id);
+
+        if (!$usuario) {
+            return redirect()->to('/usuarios')->with('error', 'Usuario no encontrado');
         }
-        
-        return redirect()->back()->with('error', 'Error al eliminar el usuario');
+
+        //VALIDAMOS LA ENTRADA DEL USUARIO
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'email' => 'required|valid_email',
+            'telefono' => 'required',
+        ]);
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            return view('auth/register', [
+                'validation' => $validation
+            ]);
+        }
+
+        //SI TODO ES CORRECTO CREAMOS USUARIO
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'apellidos' => $this->request->getPost('apellidos'),
+            'email' => $this->request->getPost('email'),
+            'telefono' => $this->request->getPost('telefono'),
+            'rol' => $this->request->getPost('rol'),
+            'estado' => $this->request->getPost('estado')
+        ];
+
+        // Si nos mandan password, lo cambiamos
+        if($this->request->getPost('password') != ''){
+            $data['contrasena'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+        }
+
+        $user = $this->usuarioModel->editarUsuario($id, $data);
+        if ($user['id']) {
+            return redirect()->to('usuarios/admin/index');
+        }
+    }
+
+    public function doEliminar($id)
+    {
+        $usuario = $this->usuarioModel->getUsuarioById($id);
+
+        if (!$usuario) {
+            return redirect()->to('/usuarios')->with('error', 'Usuario no encontrado');
+        }
+
+        $user = $this->usuarioModel->eliminarUsuario($id, ['status' => 'eliminado']);
+
+        if ($user['id']) {
+            return redirect()->to('usuarios/admin/index');
+        }
     }
 
     public function ver($id)
     {
         $usuario = $this->usuarioModel->getUsuarioById($id);
-        
+
         if (!$usuario) {
             return redirect()->to('/usuarios')->with('error', 'Usuario no encontrado');
         }
 
         return view('usuarios/ver', ['usuario' => new Usuario($usuario)]);
     }
-} 
+}

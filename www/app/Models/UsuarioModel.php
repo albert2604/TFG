@@ -30,7 +30,9 @@ class UsuarioModel extends Model
     public function autenticateUser($email, $password)
     {
         $result = $this->directusApi->searchOneItem("usuarios", array(
-            'filter[email][_eq]' => $email
+            'filter[email][_eq]' => $email,
+            'filter[status][_eq]' => 'activo'
+
         ));
 
         if ($result != false && password_verify($password, $result['contrasena'])) {
@@ -54,19 +56,15 @@ class UsuarioModel extends Model
         return $result;
     }
 
-    public function actualizarUsuario(Usuario $usuario)
+    public function editarUsuario($id, $usuario)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->patch($this->apiUrl . '/' . $usuario->getId(), [
-            'json' => $usuario->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->updateItemById("usuarios", $id, $usuario);
+        return $result;
     }
 
-    public function eliminarUsuario($id)
+    public function eliminarUsuario($id, $usuario)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->delete($this->apiUrl . '/' . $id);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->deleteItemById("usuarios", $id, $usuario);
+        return $result;
     }
 }

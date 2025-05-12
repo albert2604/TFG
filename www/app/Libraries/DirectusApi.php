@@ -49,6 +49,32 @@ class DirectusApi
         }
     }
 
+    public function updateItemById($collection, $id, $data)
+    {
+        try {
+            $items = $this->directusClient->items($collection);
+
+            // Crear elemento
+            $item = $items->update($data, $id);
+            return $item['data']['data'];
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteItemById($collection, $id, $data)
+    {
+        try {
+            $items = $this->directusClient->items($collection);
+
+            // Crear elemento
+            $item = $items->update($data, $id);
+            return $item['data']['data'];
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function getItemById($collection, $id)
     {
         try {

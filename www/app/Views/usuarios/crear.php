@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('usuarios/crear') ?>" method="post">
+                    <form action="<?= base_url('usuarios/doCrear') ?>" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -69,7 +69,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Crear Usuario</button>
-                            <a href="<?= base_url('usuarios') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('usuarios/index') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

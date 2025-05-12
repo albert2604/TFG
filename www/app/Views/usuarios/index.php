@@ -51,17 +51,16 @@
                             <div class="btn-group">
                                 <a href="<?= base_url('usuarios/ver/' . $usuario->getId()) ?>" 
                                    class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="fa fa-eye"></i>
                                 </a>
                                 <a href="<?= base_url('usuarios/editar/' . $usuario->getId()) ?>" 
                                    class="btn btn-sm btn-warning">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fa fa-edit"></i>
                                 </a>
-                                <button type="button" 
-                                        class="btn btn-sm btn-danger"
-                                        onclick="confirmarEliminacion(<?= $usuario->getId() ?>)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <a href="<?= base_url('usuarios/doEliminar/' . $usuario->getId()) ?>" 
+                                   class="btn btn-sm btn-danger">
+                                    <i class="fa fa-edit"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>

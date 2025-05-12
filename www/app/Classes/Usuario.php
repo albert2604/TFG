@@ -19,7 +19,7 @@ class Usuario {
         $this->password = $data['password'] ?? '';
         $this->telefono = $data['telefono'] ?? '';
         $this->rol = $data['rol'] ?? 'cliente';
-        $this->estado = $data['estado'] ?? 'activo';
+        $this->estado = $data['status'] ?? 'activo';
     }
 
     public function getId() { return $this->id; }

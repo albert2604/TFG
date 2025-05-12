@@ -37,7 +37,7 @@
                 <?php if (session()->get('isLoggedIn')): ?>
                     <li class="nav-item"><a class="nav-link" href="/mis-reservas">Mis reservas</a></li>
                 <?php endif; ?>
-                <li class="nav-item"><a class="nav-link" href="/usuarios/index">Usuarios</a></li>
+                <li class="nav-item"><a class="nav-link" href="/usuarios/admin/list">Usuarios</a></li>
                 <?php if (session()->get('isLoggedIn')): ?>
                     <li class="nav-item">
                         <span class="nav-link disabled">👤 <?= esc(session()->get('usuario_nombre')) ?> (<?= esc(session()->get('usuario_rol')) ?>)</span>

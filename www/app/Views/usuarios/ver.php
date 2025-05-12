@@ -50,7 +50,7 @@
                            class="btn btn-primary">
                             <i class="fas fa-edit"></i> Editar Usuario
                         </a>
-                        <a href="<?= base_url('usuarios') ?>" class="btn btn-secondary">
+                        <a href="<?= base_url('usuarios/index') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver al Listado
                         </a>
                     </div>
