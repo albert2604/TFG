@@ -1,0 +1,8 @@
+data/logs
+data/mysql
+venv
+www/vendor
+www/writable/session
+www/writable/debugbar
+www/writable/logs
+www/writable/cache

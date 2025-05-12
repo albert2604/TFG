@@ -1,0 +1,88 @@
+#para iniciar un docker compose inicio con services
+services:
+
+  directus:
+    image: directus/directus:latest
+    container_name: "${COMPOSE_PROJECT_NAME}-directus"
+    ports:
+      - "${DIRECTUS_PORT}:8055"
+    volumes:
+      - ./data/directus/uploads:/directus/uploads
+      - ./data/directus/extensions:/directus/extensions
+    environment:
+      SECRET: "TG172HSUWS721SK0"
+      DB_CLIENT: "mysql"
+      DB_HOST: "bbdd"
+      DB_PORT: "${MYSQL_PORT}"
+      DB_DATABASE: "${MYSQL_DATABASE}"
+      DB_USER: "${MYSQL_USER}"
+      DB_PASSWORD: "${MYSQL_PASSWORD}"
+      ADMIN_EMAIL: "${DIRECTUS_USER}"
+      ADMIN_PASSWORD: "${DIRECTUS_PASS}"
+    depends_on:
+      bbdd:
+        condition: service_healthy
+
+  bbdd:
+    #para buscar las imagenes vamos a docker hub, buscamos y despues a tag. Su estructura es (nombre imagen):(etiqueta que corresponde con la version)
+    image: mysql:8
+    #es lo que me va a salir en dokcer desktop
+    container_name: "${COMPOSE_PROJECT_NAME}-bbdd"
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+    #servira para enviar todo correctamente a la bbdd
+      - ./data/mysql:/var/lib/mysql
+    environment:
+    #variables de entorno que le voy a pasar y ya va estar preconfigurado
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: "${COMPOSE_PROJECT_NAME}-phpmyadmin"
+    environment:
+      PMA_HOST: bbdd
+      PMA_PORT: ${MYSQL_PORT}
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "${PMA_HTTP}:80"
+      - "${PMA_HTTPS}:443"
+    depends_on:
+      bbdd:
+        condition: service_healthy
+
+  webserver:
+    build:
+      context: ./data/build/php82
+    container_name: "${COMPOSE_PROJECT_NAME}-webserver"
+    restart: "no"
+    ports:
+      - "${APACHE_HTTP_PORT}:80"
+      - "${APACHE_HTTPS_PORT}:443"
+    volumes:
+      - ./www:/var/www/html:rw
+      - ./data/config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./data/config/ssl:/etc/apache2/ssl/
+      - ./data/config/vhosts:/etc/apache2/sites-enabled
+      - ./data/logs/apache2:/var/log/apache2
+      - ./data/logs/xdebug:/var/log/xdebug
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+      XDEBUG_CONFIG: "client_host=host.docker.internal remote_port=${XDEBUG_PORT}"
+    depends_on:
+      bbdd:
+        condition: service_healthy
+
+
+     
+
