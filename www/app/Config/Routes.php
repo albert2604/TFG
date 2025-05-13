@@ -40,10 +40,16 @@ $routes->get('usuarios/ver/(:segment)', 'UsuariosController::ver/$1');
 // $routes->post('reservas/store', 'Reservas::store');
 
 
-// // Crear película (solo admin)
-// $routes->get('peliculas/crear', 'Peliculas::crear');
-// $routes->post('peliculas/ver', 'Peliculas::ver');
-// $routes->get('peliculas/', 'Peliculas::index');
+// Rutas de película (admin)
+$routes->post('peliculas/admin/doCrear', 'PeliculasController::doCrear');
+$routes->get('peliculas/admin/crear', 'PeliculasController::crear');
+$routes->get('peliculas/admin/editar/(:segment)', 'PeliculasController::editar/$1');
+$routes->post('peliculas/admin/doEditar/(:segment)', 'PeliculasController::doEditar/$1');
+$routes->get('peliculas/admin/ver/(:segment)', 'PeliculasController::ver/$1');
+$routes->get('peliculas/admin/list', 'PeliculasController::index');
+$routes->get('peliculas/admin/doEliminar/(:segment)', 'PeliculasController::doEliminar/$1');
+
+//
 
 // // Crear función (solo admin)
 // $routes->get('funciones/create', 'Funciones::create');

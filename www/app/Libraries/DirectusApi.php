@@ -88,17 +88,17 @@ class DirectusApi
         }
     }
 
-    public function searchOneItem($collection, $filters){
+    public function searchOneItem($collection, $filters)
+    {
         try {
             $items = $this->directusClient->items($collection);
 
             // Crear elemento
             $item = $items->get($filters);
 
-            if(count($item['data']['data']) == 1){
+            if (count($item['data']['data']) == 1) {
                 return $item['data']['data'][0];
-            }
-            else{
+            } else {
                 return false;
             }
         } catch (\Throwable $th) {
@@ -106,17 +106,50 @@ class DirectusApi
         }
     }
 
-    public function searchManyItems($collection, $filters){
+    public function searchManyItems($collection, $filters)
+    {
         try {
             $items = $this->directusClient->items($collection);
 
             // Crear elemento
             $item = $items->get($filters);
-            
+
             return $item['data']['data'];
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
+    public function createFile($file)
+    {
+        try {
+
+            $files = $this->directusClient->files();
+            
+            $new_file = $files->create([
+                'name' => $file->getName(),
+                'tmp_name' => $file->getTempName(),
+            ]);
+
+            return $new_file['data']['data']['id'];
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getFile($id)
+    {
+        try {
+
+            $files = $this->directusClient->files();
+            
+            $file = $files->get($id);
+
+            return $file['data']['data'];
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

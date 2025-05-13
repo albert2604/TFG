@@ -1,58 +1,69 @@
 <?php
 namespace App\Models;
 
+use App\Libraries\DirectusApi;
 use CodeIgniter\Model;
+use App\Classes\Pelicula;
 
 class PeliculaModel extends Model
 {
-    protected $apiUrl = 'http://localhost:8055/items/peliculas';
+     protected $directusApi;
 
-    public function getPeliculas()
+    public function __construct()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            $data['data'] = array_map(function($peliculaData) {
-                return new Pelicula($peliculaData);
-            }, $data['data']);
+        $this->directusApi = new DirectusApi();
+    }
+
+    public function getPelicula()
+    {
+        $peliculas = $this->directusApi->getAllItems('peliculas');
+
+        if ($peliculas === null) {
+            return null;
         }
-        return $data;
+        $peliculas = array_map(fn($peliculaData) => new Pelicula($peliculaData), $peliculas);
+
+        return $peliculas;
     }
 
     public function getPeliculaById($id)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl . '/' . $id);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            return new Pelicula($data['data']);
+        $result = $this->directusApi->getItemById("peliculas", $id);
+        return $result;
+    }
+
+    public function crearPelicula($pelicula)
+    {
+        if($pelicula['poster_url']->getName() != ''){
+            $posterId = $this->directusApi->createFile($pelicula["poster_url"]);
+            $pelicula['poster_url'] = $posterId;
         }
-        return null;
+        else{
+            $pelicula['poster_url'] = null;
+        }
+        
+        $result = $this->directusApi->createItem("peliculas", $pelicula);
+        return $result;
     }
 
-    public function crearPelicula(Pelicula $pelicula)
+    public function editarPelicula($id, $pelicula)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->post($this->apiUrl, [
-            'json' => $pelicula->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        if($pelicula['poster_url']->getName() != ''){
+            $posterId = $this->directusApi->createFile($pelicula["poster_url"]);
+            $pelicula['poster_url'] = $posterId;
+        }
+        else{
+            $pelicula['poster_url'] = null;
+        }
+        
+        $result = $this->directusApi->updateItemById("peliculas", $id, $pelicula);
+        
+        return $result;
     }
 
-    public function actualizarPelicula(Pelicula $pelicula)
+    public function eliminarPelicula($id, $pelicula)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->patch($this->apiUrl . '/' . $pelicula->getId(), [
-            'json' => $pelicula->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
-    }
-
-    public function eliminarPelicula($id)
-    {
-        $client = \Config\Services::curlrequest();
-        $response = $client->delete($this->apiUrl . '/' . $id);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->deleteItemById("peliculas", $id, $pelicula);
+        return $result;
     }
 }

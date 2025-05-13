@@ -1,99 +1,151 @@
 <?php
+
 namespace App\Controllers;
 
-use App\Models\PeliculaModel;
 use App\Classes\Pelicula;
+use App\Models\PeliculaModel;
 
-class PeliculasController extends BaseController
+
+class PeliculasController extends AdminController
 {
     protected $peliculaModel;
 
     public function __construct()
     {
+        parent::__construct();
         $this->peliculaModel = new PeliculaModel();
     }
 
     public function index()
     {
-        $data = $this->peliculaModel->getPeliculas();
-        return view('peliculas/index', ['peliculas' => $data['data']]);
+        $peliculas = $this->peliculaModel->getPelicula();
+        return view('peliculas/index', ['peliculas' => $peliculas]);
     }
 
     public function crear()
     {
-        if ($this->request->getMethod() === 'post') {
-            $pelicula = new Pelicula([
-                'titulo' => $this->request->getPost('titulo'),
-                'descripcion' => $this->request->getPost('descripcion'),
-                'duracion' => $this->request->getPost('duracion'),
-                'genero' => $this->request->getPost('genero'),
-                'clasificacion' => $this->request->getPost('clasificacion'),
-                'poster_url' => $this->request->getPost('poster_url'),
-                'trailer_url' => $this->request->getPost('trailer_url'),
-                'estado' => $this->request->getPost('estado') ?? 'activo'
-            ]);
-
-            $resultado = $this->peliculaModel->crearPelicula($pelicula);
-            
-            if ($resultado) {
-                return redirect()->to('/peliculas')->with('mensaje', 'Película creada exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al crear la película');
-        }
-
         return view('peliculas/crear');
+    }
+
+    public function doCrear()
+    {
+        //VALIDAMOS LA ENTRADA DE LA PELICULA
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+            'duracion' => 'required',
+            'genero' => 'required',
+            'clasificacion' => 'required',
+            'trailer_url' => 'required',
+            'status' => 'required'
+        ]);
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            return view('peliculas/crear', [
+                'validation' => $validation
+            ]);
+        }
+ 
+        //SI TODO ES CORRECTO CREAMOS LA PELICULA
+        $data = [
+            'titulo' => $this->request->getPost('titulo'),
+            'descripcion' => $this->request->getPost('descripcion'),
+            'duracion' => $this->request->getPost('duracion'),
+            'genero' => $this->request->getPost('genero'),
+            'clasificacion' => $this->request->getPost('clasificacion'),
+            'poster_url' => $this->request->getFile('poster_url'),
+            'trailer_url' => $this->request->getPost('trailer_url'),
+            'status' => $this->request->getPost('status') ?? 'activo'
+        ];
+
+        $pelicula = $this->peliculaModel->crearPelicula($data);
+        if ($pelicula['id']) {
+            return redirect()->to('peliculas/admin/list/');
+        }
     }
 
     public function editar($id)
     {
         $pelicula = $this->peliculaModel->getPeliculaById($id);
-        
+
         if (!$pelicula) {
-            return redirect()->to('/peliculas')->with('error', 'Película no encontrada');
+            return redirect()->to('/peliculas/admin/list')->with('error', 'Pelicula no encontrado');
         }
 
-        if ($this->request->getMethod() === 'post') {
-            $pelicula->setTitulo($this->request->getPost('titulo'));
-            $pelicula->setDescripcion($this->request->getPost('descripcion'));
-            $pelicula->setDuracion($this->request->getPost('duracion'));
-            $pelicula->setGenero($this->request->getPost('genero'));
-            $pelicula->setClasificacion($this->request->getPost('clasificacion'));
-            $pelicula->setPosterUrl($this->request->getPost('poster_url'));
-            $pelicula->setTrailerUrl($this->request->getPost('trailer_url'));
-            $pelicula->setEstado($this->request->getPost('estado'));
+        return view('peliculas/editar', ['pelicula' => new Pelicula($pelicula)]);
+    }
+    
+    public function doEditar($id)
+    {
+        $pelicula = $this->peliculaModel->getPeliculaById($id);
 
-            $resultado = $this->peliculaModel->actualizarPelicula($pelicula);
-            
-            if ($resultado) {
-                return redirect()->to('/peliculas')->with('mensaje', 'Película actualizada exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al actualizar la película');
+        if (!$pelicula) {
+            return redirect()->to('peliculas/admin/list')->with('error', 'Película no encontrada');
         }
 
-        return view('peliculas/editar', ['pelicula' => $pelicula]);
+        //VALIDAMOS LA ENTRADA DE LA PELICULA
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'titulo' => 'required',
+            'descripcion' => 'required',
+            'duracion' => 'required',
+            'genero' => 'required',
+            'clasificacion' => 'required',
+            'trailer_url' => 'required',
+            'status' => 'required'
+        ]);
+
+        //SI TODO ES CORRECTO CREAMOS LA PELICULA
+        $data = [
+            'titulo' => $this->request->getPost('titulo'),
+            'descripcion' => $this->request->getPost('descripcion'),
+            'duracion' => $this->request->getPost('duracion'),
+            'genero' => $this->request->getPost('genero'),
+            'clasificacion' => $this->request->getPost('clasificacion'),
+            'poster_url' => $this->request->getFile('poster_url'),
+            'trailer_url' => $this->request->getPost('trailer_url'),
+            'status' => $this->request->getPost('status') ?? 'activo'
+        ];
+        
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            return view('peliculas/editar', [
+                'pelicula' => new Pelicula($data),
+                'validation' => $validation
+            ]);
+        }
+
+        $pelicula = $this->peliculaModel->editarPelicula($id,$data);
+        if ($pelicula['id']) {
+            return redirect()->to('peliculas/admin/list/');
+        }
     }
 
-    public function eliminar($id)
+    public function doEliminar($id)
     {
-        $resultado = $this->peliculaModel->eliminarPelicula($id);
-        
-        if ($resultado) {
-            return redirect()->to('/peliculas')->with('mensaje', 'Película eliminada exitosamente');
+        $peliculaId = $this->peliculaModel->getPeliculaById($id);
+
+        if (!$peliculaId) {
+            return redirect()->to('/peliculas')->with('error', 'pelicula no encontrado');
         }
-        
-        return redirect()->back()->with('error', 'Error al eliminar la película');
+
+        $pelicula = $this->peliculaModel->eliminarPelicula($id, ['status' => 'eliminado']);
+
+        if ($pelicula['id']) {
+            return redirect()->to('peliculas/admin/list');
+        }
     }
 
     public function ver($id)
     {
         $pelicula = $this->peliculaModel->getPeliculaById($id);
-        
+
         if (!$pelicula) {
-            return redirect()->to('/peliculas')->with('error', 'Película no encontrada');
+            return redirect()->to('/peliculas')->with('error', 'pelicula no encontrado');
         }
 
-        return view('peliculas/ver', ['pelicula' => $pelicula]);
+        return view('peliculas/ver', ['pelicula' => new Pelicula($pelicula)]);
     }
 }

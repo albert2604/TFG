@@ -47,18 +47,18 @@
                             </li>
                             <li class="list-group-item">
                                 <strong>Estado:</strong>
-                                <span class="badge <?= $pelicula->estaActiva() ? 'bg-success' : 'bg-danger' ?>">
-                                    <?= $pelicula->estaActiva() ? 'Activa' : 'Inactiva' ?>
+                                <span class="badge <?= $pelicula->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
+                                    <?= $pelicula->estaActivo() ? 'Activo' : 'Eliminado' ?>
                                 </span>
                             </li>
                         </ul>
                     </div>
 
                     <div class="d-grid gap-2">
-                        <a href="<?= base_url('peliculas/editar/' . $pelicula->getId()) ?>" class="btn btn-primary">
+                        <a href="<?= base_url('peliculas/admin/editar/' . $pelicula->getId()) ?>" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Editar Película
                         </a>
-                        <a href="<?= base_url('peliculas') ?>" class="btn btn-secondary">
+                        <a href="<?= base_url('peliculas/admin/list') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver al Listado
                         </a>
                     </div>

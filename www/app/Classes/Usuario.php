@@ -9,7 +9,7 @@ class Usuario {
     private $password;
     private $telefono;
     private $rol;
-    private $estado;
+    private $status;
 
     public function __construct($data = []) {
         $this->id = $data['id'] ?? null;
@@ -19,7 +19,7 @@ class Usuario {
         $this->password = $data['password'] ?? '';
         $this->telefono = $data['telefono'] ?? '';
         $this->rol = $data['rol'] ?? 'cliente';
-        $this->estado = $data['status'] ?? 'activo';
+        $this->status = $data['status'] ?? 'activo';
     }
 
     public function getId() { return $this->id; }
@@ -29,7 +29,7 @@ class Usuario {
     public function getPassword() { return $this->password; }
     public function getTelefono() { return $this->telefono; }
     public function getRol() { return $this->rol; }
-    public function getEstado() { return $this->estado; }
+    public function getStatus() { return $this->status; }
 
     public function setNombre($nombre) { $this->nombre = $nombre; }
     public function setApellidos($apellidos) { $this->apellidos = $apellidos; }
@@ -37,7 +37,7 @@ class Usuario {
     public function setPassword($password) { $this->password = $password; }
     public function setTelefono($telefono) { $this->telefono = $telefono; }
     public function setRol($rol) { $this->rol = $rol; }
-    public function setEstado($estado) { $this->estado = $estado; }
+    public function setStatus($status) { $this->status = $status; }
 
     public function toArray() {
         return [
@@ -48,7 +48,7 @@ class Usuario {
             'password' => $this->password,
             'telefono' => $this->telefono,
             'rol' => $this->rol,
-            'estado' => $this->estado
+            'status' => $this->status
         ];
     }
 
@@ -61,6 +61,6 @@ class Usuario {
     }
 
     public function estaActivo() {
-        return $this->estado === 'activo';
+        return $this->status === 'activo';
     }
 } 

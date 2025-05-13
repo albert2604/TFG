@@ -1,6 +1,8 @@
 <?php
 namespace App\Classes;
 
+use App\Libraries\DirectusApi;
+
 class Pelicula {
     private $id;
     private $titulo;
@@ -10,7 +12,8 @@ class Pelicula {
     private $clasificacion;
     private $poster_url;
     private $trailer_url;
-    private $estado;
+    private $status;
+    protected $directusApi;
 
     public function __construct($data = []) {
         $this->id = $data['id'] ?? null;
@@ -21,7 +24,9 @@ class Pelicula {
         $this->clasificacion = $data['clasificacion'] ?? 'TP';
         $this->poster_url = $data['poster_url'] ?? '';
         $this->trailer_url = $data['trailer_url'] ?? '';
-        $this->estado = $data['estado'] ?? 'activo';
+        $this->status = $data['status'] ?? 'activo';
+        $this->directusApi = new DirectusApi();
+
     }
 
     public function getId() { return $this->id; }
@@ -30,9 +35,11 @@ class Pelicula {
     public function getDuracion() { return $this->duracion; }
     public function getGenero() { return $this->genero; }
     public function getClasificacion() { return $this->clasificacion; }
-    public function getPosterUrl() { return $this->poster_url; }
+    public function getPosterUrl() {
+        return env('DIRECTUS_HOST_URL')."assets/".$this->poster_url; 
+    }
     public function getTrailerUrl() { return $this->trailer_url; }
-    public function getEstado() { return $this->estado; }
+    public function getStatus() { return $this->status; }
 
     public function setTitulo($titulo) { $this->titulo = $titulo; }
     public function setDescripcion($descripcion) { $this->descripcion = $descripcion; }
@@ -41,7 +48,7 @@ class Pelicula {
     public function setClasificacion($clasificacion) { $this->clasificacion = $clasificacion; }
     public function setPosterUrl($poster_url) { $this->poster_url = $poster_url; }
     public function setTrailerUrl($trailer_url) { $this->trailer_url = $trailer_url; }
-    public function setEstado($estado) { $this->estado = $estado; }
+    public function setStatus($status) { $this->status = $status; }
 
     public function toArray() {
         return [
@@ -53,12 +60,12 @@ class Pelicula {
             'clasificacion' => $this->clasificacion,
             'poster_url' => $this->poster_url,
             'trailer_url' => $this->trailer_url,
-            'estado' => $this->estado
+            'status' => $this->status
         ];
     }
 
-    public function estaActiva() {
-        return $this->estado === 'activo';
+    public function estaActivo() {
+        return $this->status === 'activo';
     }
 
     public function getDuracionFormateada() {

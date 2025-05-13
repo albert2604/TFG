@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Usuarios</h1>
-        <a href="<?= base_url('usuarios/crear') ?>" class="btn btn-primary">
+        <a href="<?= base_url('usuarios/admin/crear') ?>" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nuevo Usuario
         </a>
     </div>
@@ -44,20 +44,20 @@
                         <td><?= ucfirst($usuario->getRol()) ?></td>
                         <td>
                             <span class="badge <?= $usuario->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
-                                <?= $usuario->getEstado() ?>
+                                <?= $usuario->getStatus() ?>
                             </span>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="<?= base_url('usuarios/ver/' . $usuario->getId()) ?>" 
+                                <a href="<?= base_url('usuarios/admin/ver/' . $usuario->getId()) ?>" 
                                    class="btn btn-sm btn-info">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('usuarios/editar/' . $usuario->getId()) ?>" 
+                                <a href="<?= base_url('usuarios/admin/editar/' . $usuario->getId()) ?>" 
                                    class="btn btn-sm btn-warning">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="<?= base_url('usuarios/doEliminar/' . $usuario->getId()) ?>" 
+                                <a href="<?= base_url('usuarios/admin/doEliminar/' . $usuario->getId()) ?>" 
                                    class="btn btn-sm btn-danger">
                                     <i class="fa fa-edit"></i>
                                 </a>
@@ -69,12 +69,4 @@
         </table>
     </div>
 </div>
-
-<script>
-function confirmarEliminacion(id) {
-    if (confirm('¿Está seguro de que desea eliminar este usuario?')) {
-        window.location.href = '<?= base_url('usuarios/eliminar/') ?>' + id;
-    }
-}
-</script>
 <?= $this->endSection() ?> 

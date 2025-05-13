@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Películas</h1>
-        <a href="<?= base_url('peliculas/crear') ?>" class="btn btn-primary">
+        <a href="<?= base_url('peliculas/admin/crear') ?>" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nueva Película
         </a>
     </div>
@@ -32,31 +32,33 @@
                             <i class="fas fa-film fa-3x text-muted"></i>
                         </div>
                     <?php endif; ?>
-                    
+
                     <div class="card-body">
                         <h5 class="card-title"><?= $pelicula->getTitulo() ?></h5>
                         <p class="card-text text-muted">
                             <small>
                                 <i class="fas fa-clock"></i> <?= $pelicula->getDuracionFormateada() ?> |
                                 <i class="fas fa-film"></i> <?= $pelicula->getGenero() ?> |
-                                <i class="fas fa-ticket-alt"></i> <?= $pelicula->getClasificacion() ?>
+                                <i class="fas fa-ticket-alt"></i> <?= $pelicula->getClasificacion() ?> |
+                                <span class="badge <?= $pelicula->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
+                                    <?= $pelicula->estaActivo() ? 'Activo' : 'Eliminado' ?>
+                                </span>
                             </small>
                         </p>
-                        <p class="card-text"><?= substr($pelicula->getDescripcion(), 0, 100) ?>...</p>
+                        <p class="card-text"><?= substr($pelicula->getDescripcion(), 0, 100) ?></p>
                     </div>
-                    
+
                     <div class="card-footer bg-transparent">
                         <div class="btn-group w-100" role="group">
-                            <a href="<?= base_url('peliculas/ver/' . $pelicula->getId()) ?>" class="btn btn-info">
-                                <i class="fas fa-eye"></i> Ver
+                            <a href="<?= base_url('peliculas/admin/ver/' . $pelicula->getId()) ?>" class="btn btn-info">
+                                <i class="fa fa-eye"></i> Ver
                             </a>
-                            <a href="<?= base_url('peliculas/editar/' . $pelicula->getId()) ?>" class="btn btn-warning">
-                                <i class="fas fa-edit"></i> Editar
+                            <a href="<?= base_url('peliculas/admin/editar/' . $pelicula->getId()) ?>" class="btn btn-warning">
+                                <i class="fa fa-edit"></i> Editar
                             </a>
-                            <button type="button" class="btn btn-danger" 
-                                    onclick="confirmarEliminacion(<?= $pelicula->getId() ?>)">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </button>
+                            <a href="<?= base_url('peliculas/admin/doEliminar/' . $pelicula->getId()) ?>" class="btn btn-danger">
+                                <i class="fa fa-edit"></i> Eliminar
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -65,11 +67,4 @@
     </div>
 </div>
 
-<script>
-function confirmarEliminacion(id) {
-    if (confirm('¿Está seguro de que desea eliminar esta película?')) {
-        window.location.href = '<?= base_url('peliculas/eliminar/') ?>' + id;
-    }
-}
-</script>
 <?= $this->endSection() ?>

@@ -24,7 +24,7 @@ class UsuariosAdminController extends AdminController
 
     public function crear()
     {
-        return view('usuarios/admin/crear');
+        return view('usuarios/crear');
     }
 
     public function doCrear()
@@ -54,12 +54,12 @@ class UsuariosAdminController extends AdminController
             'contrasena' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'telefono' => $this->request->getPost('telefono'),
             'rol' => $this->request->getPost('rol'),
-            'estado' => $this->request->getPost('estado')
+            'status' => $this->request->getPost('status')
         ];
 
         $user = $this->usuarioModel->crearUsuario($data);
         if ($user['id']) {
-            return redirect()->to('usuarios/admin/index');
+            return redirect()->to('usuarios/admin/list');
         }
     }
 
@@ -71,7 +71,7 @@ class UsuariosAdminController extends AdminController
             return redirect()->to('/usuarios')->with('error', 'Usuario no encontrado');
         }
 
-        return view('usuarios/admin/editar', ['usuario' => new Usuario($usuario)]);
+        return view('usuarios/editar', ['usuario' => new Usuario($usuario)]);
     }
 
     public function doEditar($id)
@@ -93,7 +93,7 @@ class UsuariosAdminController extends AdminController
 
         //SI FALLA MOSTRAMOS ERROR
         if (!$validation->withRequest($this->request)->run()) {
-            return view('auth/register', [
+            return view('usuarios/editar', [
                 'validation' => $validation
             ]);
         }
@@ -105,7 +105,7 @@ class UsuariosAdminController extends AdminController
             'email' => $this->request->getPost('email'),
             'telefono' => $this->request->getPost('telefono'),
             'rol' => $this->request->getPost('rol'),
-            'estado' => $this->request->getPost('estado')
+            'status' => $this->request->getPost('status')
         ];
 
         // Si nos mandan password, lo cambiamos
@@ -115,7 +115,7 @@ class UsuariosAdminController extends AdminController
 
         $user = $this->usuarioModel->editarUsuario($id, $data);
         if ($user['id']) {
-            return redirect()->to('usuarios/admin/index');
+            return redirect()->to('usuarios/admin/list');
         }
     }
 
@@ -130,7 +130,7 @@ class UsuariosAdminController extends AdminController
         $user = $this->usuarioModel->eliminarUsuario($id, ['status' => 'eliminado']);
 
         if ($user['id']) {
-            return redirect()->to('usuarios/admin/index');
+            return redirect()->to('usuarios/admin/list');
         }
     }
 

@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('usuarios/doEditar/' . $usuario->getId()) ?>" method="post">
+                    <form action="<?= base_url('usuarios/admin/doEditar/' . $usuario->getId()) ?>" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -67,13 +67,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <select class="form-select" id="estado" name="estado">
+                                    <label for="status" class="form-label">Estado</label>
+                                    <select class="form-select" id="status" name="status">
                                         <option value="activo" <?= $usuario->estaActivo() ? 'selected' : '' ?>>
                                             Activo
                                         </option>
-                                        <option value="inactivo" <?= !$usuario->estaActivo() ? 'selected' : '' ?>>
-                                            Inactivo
+                                        <option value="eliminado" <?= !$usuario->estaActivo() ? 'selected' : '' ?>>
+                                            Eliminado
                                         </option>
                                     </select>
                                 </div>

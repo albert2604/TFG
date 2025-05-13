@@ -6,3 +6,4 @@ www/writable/session
 www/writable/debugbar
 www/writable/logs
 www/writable/cache
+data/directus/uploads

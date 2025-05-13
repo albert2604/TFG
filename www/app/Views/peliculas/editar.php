@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('peliculas/editar/' . $pelicula->getId()) ?>" method="post">
+                    <form action="<?= base_url('peliculas/admin/doEditar/' . $pelicula->getId()) ?>" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" 
@@ -65,7 +65,7 @@
 
                         <div class="mb-3">
                             <label for="poster_url" class="form-label">URL del Póster</label>
-                            <input type="url" class="form-control" id="poster_url" name="poster_url" 
+                            <input type="file" class="form-control" id="poster_url" name="poster_url" 
                                    value="<?= $pelicula->getPosterUrl() ?>">
                         </div>
 
@@ -76,16 +76,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
-                                <option value="activo" <?= $pelicula->estaActiva() ? 'selected' : '' ?>>Activa</option>
-                                <option value="inactivo" <?= !$pelicula->estaActiva() ? 'selected' : '' ?>>Inactiva</option>
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="activo" <?= $pelicula->estaActivo() ? 'selected' : '' ?>>Activo</option>
+                                <option value="eliminado" <?= !$pelicula->estaActivo() ? 'selected' : '' ?>>Eliminado</option>
                             </select>
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Actualizar Película</button>
-                            <a href="<?= base_url('peliculas') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('peliculas/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

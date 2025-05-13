@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="/cines">Cines</a></li>
-                <li class="nav-item"><a class="nav-link" href="/peliculas">Películas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/peliculas/admin/list">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/funciones">Funciones</a></li>
                 <li class="nav-item"><a class="nav-link" href="/salas">Salas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/butacas">Butacas</a></li>

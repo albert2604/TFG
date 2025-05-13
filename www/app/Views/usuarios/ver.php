@@ -38,22 +38,23 @@
                                 <dt class="col-sm-4">Estado:</dt>
                                 <dd class="col-sm-8">
                                     <span class="badge <?= $usuario->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
-                                        <?= $usuario->getEstado() ?>
+                                        <?= $usuario->getStatus() ?>
                                     </span>
                                 </dd>
                             </dl>
                         </div>
                     </div>
-
-                    <div class="mt-4">
-                        <a href="<?= base_url('usuarios/editar/' . $usuario->getId()) ?>" 
-                           class="btn btn-primary">
-                            <i class="fas fa-edit"></i> Editar Usuario
-                        </a>
-                        <a href="<?= base_url('usuarios/index') ?>" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Volver al Listado
-                        </a>
-                    </div>
+                    <?php if($usuario->getRol() == "admin"):?>
+                        <div class="mt-4">
+                            <a href="<?= base_url('usuarios/admin/editar/' . $usuario->getId()) ?>" 
+                            class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Editar Usuario
+                            </a>
+                            <a href="<?= base_url('usuarios/admin/list') ?>" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    <?php endif;?>
                 </div>
             </div>
         </div>

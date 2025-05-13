@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('peliculas/crear') ?>" method="post">
+                    <form action="<?= base_url('peliculas/admin/doCrear') ?>" method="post"  enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" required>
@@ -62,7 +62,7 @@
 
                         <div class="mb-3">
                             <label for="poster_url" class="form-label">URL del Póster</label>
-                            <input type="url" class="form-control" id="poster_url" name="poster_url">
+                            <input type="file" class="form-control" id="poster_url" name="poster_url">
                         </div>
 
                         <div class="mb-3">
@@ -71,16 +71,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
-                                <option value="activo">Activa</option>
-                                <option value="inactivo">Inactiva</option>
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="activo">Activo</option>
+                                <option value="eliminado">Eliminado</option>
                             </select>
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Crear Película</button>
-                            <a href="<?= base_url('peliculas') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('peliculas/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>
