@@ -43,7 +43,7 @@
                         <div class="col-md-4 fw-bold">Estado:</div>
                         <div class="col-md-8">
                             <span class="badge <?= $cine->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
-                                <?= $cine->getEstado() ?>
+                                <?= $cine->getStatus() ?>
                             </span>
                         </div>
                     </div>
@@ -54,10 +54,10 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <a href="<?= base_url('cines/editar/' . $cine->getId()) ?>" class="btn btn-warning">
+                        <a href="<?= base_url('cines/admin/editar/' . $cine->getId()) ?>" class="btn btn-warning">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                        <a href="<?= base_url('cines') ?>" class="btn btn-secondary">
+                        <a href="<?= base_url('cines/admin/list') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver
                         </a>
                     </div>

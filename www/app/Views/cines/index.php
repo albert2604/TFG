@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Cines</h1>
-        <a href="<?= base_url('cines/crear') ?>" class="btn btn-primary">
+        <a href="<?= base_url('cines/admin/crear') ?>" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nuevo Cine
         </a>
     </div>
@@ -42,21 +42,20 @@
                         <td><?= $cine->getTelefono() ?></td>
                         <td>
                             <span class="badge <?= $cine->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
-                                <?= $cine->getEstado() ?>
+                                <?= $cine->getStatus() ?>
                             </span>
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('cines/ver/' . $cine->getId()) ?>" class="btn btn-info btn-sm">
+                                <a href="<?= base_url('cines/admin/ver/' . $cine->getId()) ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('cines/editar/' . $cine->getId()) ?>" class="btn btn-warning btn-sm">
+                                <a href="<?= base_url('cines/admin/editar/' . $cine->getId()) ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-danger btn-sm" 
-                                        onclick="confirmarEliminacion(<?= $cine->getId() ?>)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                 <a href="<?= base_url('cines/admin/doEliminar/' . $cine->getId()) ?>" class="btn btn-danger">
+                                <i class="fa fa-edit"></i>
+                            </a>
                             </div>
                         </td>
                     </tr>
@@ -66,11 +65,4 @@
     </div>
 </div>
 
-<script>
-function confirmarEliminacion(id) {
-    if (confirm('¿Está seguro de que desea eliminar este cine?')) {
-        window.location.href = '<?= base_url('cines/eliminar/') ?>' + id;
-    }
-}
-</script>
 <?= $this->endSection() ?> 

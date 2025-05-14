@@ -1,95 +1,143 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\CineModel;
 use App\Classes\Cine;
 
-class CinesController extends BaseController
+class CinesController extends AdminController
 {
     protected $cineModel;
 
     public function __construct()
     {
+        parent::__construct();
         $this->cineModel = new CineModel();
     }
 
     public function index()
     {
-        $data = $this->cineModel->getCines();
-        return view('cines/index', ['cines' => $data['data']]);
+        $cines = $this->cineModel->getCines();
+        return view('cines/index', ['cines' => $cines]);
     }
 
     public function crear()
     {
-        if ($this->request->getMethod() === 'post') {
-            $cine = new Cine([
-                'nombre' => $this->request->getPost('nombre'),
-                'direccion' => $this->request->getPost('direccion'),
-                'ciudad' => $this->request->getPost('ciudad'),
-                'telefono' => $this->request->getPost('telefono'),
-                'email' => $this->request->getPost('email'),
-                'estado' => $this->request->getPost('estado') ?? 'activo'
-            ]);
-
-            $resultado = $this->cineModel->crearCine($cine);
-            
-            if ($resultado) {
-                return redirect()->to('/cines')->with('mensaje', 'Cine creado exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al crear el cine');
-        }
 
         return view('cines/crear');
     }
 
-    public function editar($id)
+    public function doCrear()
     {
-        $cine = $this->cineModel->getCineById($id);
-        
-        if (!$cine) {
-            return redirect()->to('/cines')->with('error', 'Cine no encontrado');
+
+        //VALIDAMOS LA ENTRADA DE LA PELICULA
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'ciudad' => 'required',
+            'telefono' => 'required',
+            'email' => 'required',
+            'status' => 'required'
+        ]);
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            return view('cines/crear', [
+                'validation' => $validation
+            ]);
         }
 
-        if ($this->request->getMethod() === 'post') {
-            $cine->setNombre($this->request->getPost('nombre'));
-            $cine->setDireccion($this->request->getPost('direccion'));
-            $cine->setCiudad($this->request->getPost('ciudad'));
-            $cine->setTelefono($this->request->getPost('telefono'));
-            $cine->setEmail($this->request->getPost('email'));
-            $cine->setEstado($this->request->getPost('estado'));
+        //SI TODO ES CORRECTO CREAMOS LA PELICULA
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'direccion' => $this->request->getPost('direccion'),
+            'ciudad' => $this->request->getPost('ciudad'),
+            'telefono' => $this->request->getPost('telefono'),
+            'email' => $this->request->getPost('email'),
+            'status' => $this->request->getPost('status') ?? 'activo'
+        ];
 
-            $resultado = $this->cineModel->actualizarCine($cine);
-            
-            if ($resultado) {
-                return redirect()->to('/cines')->with('mensaje', 'Cine actualizado exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al actualizar el cine');
+        $cine = $this->cineModel->crearCine($data);
+        if ($cine['id']) {
+            return redirect()->to('cines/admin/list/');
         }
-
-        return view('cines/editar', ['cine' => $cine]);
     }
 
-    public function eliminar($id)
+    public function editar($id)
     {
-        $resultado = $this->cineModel->eliminarCine($id);
-        
-        if ($resultado) {
-            return redirect()->to('/cines')->with('mensaje', 'Cine eliminado exitosamente');
+
+        $cine = $this->cineModel->getCineById($id);
+
+        if (!$cine) {
+            return redirect()->to('/cines/admin/list')->with('error', 'Cine no encontrado');
         }
-        
-        return redirect()->back()->with('error', 'Error al eliminar el cine');
+
+        return view('cines/editar', ['cine' => new Cine($cine)]);
+    }
+
+    public function doEditar($id)
+    {
+        $cine = $this->cineModel->getCineById($id);
+
+        //VALIDAMOS LA ENTRADA DE LA PELICULA
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nombre' => 'required',
+            'direccion' => 'required',
+            'ciudad' => 'required',
+            'telefono' => 'required',
+            'email' => 'required',
+            'status' => 'required'
+        ]);
+
+        //SI TODO ES CORRECTO CREAMOS LA PELICULA
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'direccion' => $this->request->getPost('direccion'),
+            'ciudad' => $this->request->getPost('ciudad'),
+            'telefono' => $this->request->getPost('telefono'),
+            'email' => $this->request->getPost('email'),
+            'status' => $this->request->getPost('status') ?? 'activo'
+        ];
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            return view('cines/editar', [
+                'cine' => new Cine($data),
+                'validation' => $validation
+            ]);
+        }
+
+        $cine = $this->cineModel->editarCine($id, $data);
+        if ($cine['id']) {
+            return redirect()->to('cine/admin/list/');
+        }
+    }
+
+    public function doEliminar($id)
+    {
+        $cineId = $this->cineModel->getCineById($id);
+
+        if (!$cineId) {
+            return redirect()->to('/cines/admin/list')->with('error', 'cine no encontrado');
+        }
+
+        $cine = $this->cineModel->eliminarCine($id, ['status' => 'eliminado']);
+
+        if ($cine['id']) {
+            return redirect()->to('cines/admin/list');
+        }
     }
 
     public function ver($id)
     {
         $cine = $this->cineModel->getCineById($id);
-        
+
         if (!$cine) {
-            return redirect()->to('/cines')->with('error', 'Cine no encontrado');
+            return redirect()->to('/cines')->with('error', 'cine no encontrado');
         }
 
-        return view('cines/ver', ['cine' => $cine]);
+        return view('cines/ver', ['cine' => new Cine($cine)]);
     }
-} 
+}

@@ -8,7 +8,7 @@ class Cine {
     private $ciudad;
     private $telefono;
     private $email;
-    private $estado;
+    private $status;
 
     public function __construct($data = []) {
         $this->id = $data['id'] ?? null;
@@ -17,7 +17,7 @@ class Cine {
         $this->ciudad = $data['ciudad'] ?? '';
         $this->telefono = $data['telefono'] ?? '';
         $this->email = $data['email'] ?? '';
-        $this->estado = $data['estado'] ?? 'activo';
+        $this->status = $data['status'] ?? 'activo';
     }
 
     public function getId() { return $this->id; }
@@ -26,14 +26,14 @@ class Cine {
     public function getCiudad() { return $this->ciudad; }
     public function getTelefono() { return $this->telefono; }
     public function getEmail() { return $this->email; }
-    public function getEstado() { return $this->estado; }
+    public function getStatus() { return $this->status; }
 
     public function setNombre($nombre) { $this->nombre = $nombre; }
     public function setDireccion($direccion) { $this->direccion = $direccion; }
     public function setCiudad($ciudad) { $this->ciudad = $ciudad; }
     public function setTelefono($telefono) { $this->telefono = $telefono; }
     public function setEmail($email) { $this->email = $email; }
-    public function setEstado($estado) { $this->estado = $estado; }
+    public function setStatus($status) { $this->status = $status; }
 
     public function toArray() {
         return [
@@ -43,7 +43,7 @@ class Cine {
             'ciudad' => $this->ciudad,
             'telefono' => $this->telefono,
             'email' => $this->email,
-            'estado' => $this->estado
+            'status' => $this->status
         ];
     }
 
@@ -52,6 +52,6 @@ class Cine {
     }
 
     public function estaActivo() {
-        return $this->estado === 'activo';
+        return $this->status === 'activo';
     }
 } 

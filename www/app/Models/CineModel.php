@@ -1,58 +1,53 @@
 <?php
 namespace App\Models;
 
+use App\Libraries\DirectusApi;
 use CodeIgniter\Model;
+use App\Classes\Cine;
 
 class CineModel extends Model
 {
-    protected $apiUrl = 'http://localhost:8055/items/cines'; // Cambia la URL si es necesario
+    protected $directusApi;
 
-    public function getCines()
+    public function __construct()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            $data['data'] = array_map(function($cineData) {
-                return new Cine($cineData);
-            }, $data['data']);
+        $this->directusApi = new DirectusApi();
+    }
+
+    public function getCines(){
+
+        $cines = $this->directusApi->getAllItems('cines');
+
+        if ($cines === null){
+            return null;
         }
-        return $data;
+        $cines = array_map(fn($cineData) => new Cine($cineData), $cines);
+
+        return $cines;
     }
 
     public function getCineById($id)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl . '/' . $id);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            return new Cine($data['data']);
-        }
-        return null;
+        $result = $this->directusApi->getItemById('cines', $id);
+        return $result;
     }
 
-    public function crearCine(Cine $cine)
+    public function crearCine($cine)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->post($this->apiUrl, [
-            'json' => $cine->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->createItem('cines', $cine);
+        return $result;
     }
 
-    public function actualizarCine(Cine $cine)
+   
+    public function editarCine($id, $cine)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->patch($this->apiUrl . '/' . $cine->getId(), [
-            'json' => $cine->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->updateItemById('cines', $id, $cine);
+        return $result;
     }
 
-    public function eliminarCine($id)
+    public function eliminarCine($id, $cine)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->delete($this->apiUrl . '/' . $id);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->deleteItemById('cines', $id, $cine);
+        return $result;
     }
 } 

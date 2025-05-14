@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('cines/editar/' . $cine->getId()) ?>" method="post">
+                    <form action="<?= base_url('cines/admin/doEditar/' . $cine->getId()) ?>" method="post">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" 
@@ -50,13 +50,13 @@
                             <label for="estado" class="form-label">Estado</label>
                             <select class="form-select" id="estado" name="estado">
                                 <option value="activo" <?= $cine->estaActivo() ? 'selected' : '' ?>>Activo</option>
-                                <option value="inactivo" <?= !$cine->estaActivo() ? 'selected' : '' ?>>Inactivo</option>
+                                <option value="eliminado" <?= !$cine->estaActivo() ? 'selected' : '' ?>>Eliminado</option>
                             </select>
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Actualizar Cine</button>
-                            <a href="<?= base_url('cines') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('cines/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

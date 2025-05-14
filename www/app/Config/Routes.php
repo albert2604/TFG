@@ -32,14 +32,6 @@ $routes->post('usuarios/admin/doEditar/(:segment)', 'UsuariosAdminController::do
 $routes->get('usuarios', 'UsuariosController::index');
 $routes->get('usuarios/ver/(:segment)', 'UsuariosController::ver/$1');
 
-// // Mis reservas (solo usuario logueado)
-// $routes->get('mis-reservas', 'Reservas::misReservas');
-
-// // Crear reserva (cualquier usuario logueado)
-// $routes->get('reservas/crear', 'Reservas::crear');
-// $routes->post('reservas/store', 'Reservas::store');
-
-
 // Rutas de película (admin)
 $routes->post('peliculas/admin/doCrear', 'PeliculasController::doCrear');
 $routes->get('peliculas/admin/crear', 'PeliculasController::crear');
@@ -49,7 +41,21 @@ $routes->get('peliculas/admin/ver/(:segment)', 'PeliculasController::ver/$1');
 $routes->get('peliculas/admin/list', 'PeliculasController::index');
 $routes->get('peliculas/admin/doEliminar/(:segment)', 'PeliculasController::doEliminar/$1');
 
-//
+// Rutas de cines (admin)
+$routes->post('cines/admin/doCrear', 'CinesController::doCrear');
+$routes->get('cines/admin/crear', 'CinesController::crear');
+$routes->get('cines/admin/editar/(:segment)', 'CinesController::editar/$1');
+$routes->post('cines/admin/doEditar/(:segment)', 'CinesController::doEditar/$1');
+$routes->get('cines/admin/ver/(:segment)', 'CinesController::ver/$1');
+$routes->get('cines/admin/list', 'CinesController::index');
+$routes->get('cines/admin/doEliminar/(:segment)', 'CinesController::doEliminar/$1');
+
+// // Mis reservas (solo usuario logueado)
+// $routes->get('mis-reservas', 'Reservas::misReservas');
+
+// // Crear reserva (cualquier usuario logueado)
+// $routes->get('reservas/crear', 'Reservas::crear');
+// $routes->post('reservas/store', 'Reservas::store');
 
 // // Crear función (solo admin)
 // $routes->get('funciones/create', 'Funciones::create');
