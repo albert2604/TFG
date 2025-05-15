@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Salas</h1>
-        <a href="<?= base_url('salas/crear') ?>" class="btn btn-primary">
+        <a href="<?= base_url('salas/admin/crear') ?>" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nueva Sala
         </a>
     </div>
@@ -41,24 +41,23 @@
                         <td><?= $sala->getCine()->getNombre() ?></td>
                         <td><?= $sala->getNombre() ?></td>
                         <td><?= $sala->getCapacidad() ?></td>
-                        <td><?= $sala->getTipo() ?></td>
+                        <td><?= $sala->getTipoSala() ?></td>
                         <td>
-                            <span class="badge <?= $sala->estaActiva() ? 'bg-success' : 'bg-danger' ?>">
-                                <?= $sala->estaActiva() ? 'Activa' : 'Inactiva' ?>
+                            <span class="badge <?= $sala->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
+                                <?= $sala->estaActivo() ? 'Activo' : 'Eliminado' ?>
                             </span>
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('salas/ver/' . $sala->getId()) ?>" class="btn btn-info btn-sm">
+                                <a href="<?= base_url('salas/admin/ver/' . $sala->getId()) ?>" class="btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('salas/editar/' . $sala->getId()) ?>" class="btn btn-warning btn-sm">
+                                <a href="<?= base_url('salas/admin/editar/' . $sala->getId()) ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-danger btn-sm" 
-                                        onclick="confirmarEliminacion(<?= $sala->getId() ?>)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <a href="<?= base_url('salas/admin/doEliminar/' . $sala->getId()) ?>" class="btn btn-danger">
+                                <i class="fa fa-edit"></i> 
+                            </a>
                             </div>
                         </td>
                     </tr>
@@ -68,11 +67,4 @@
     </div>
 </div>
 
-<script>
-function confirmarEliminacion(id) {
-    if (confirm('¿Está seguro de que desea eliminar esta sala?')) {
-        window.location.href = '<?= base_url('salas/eliminar/') ?>' + id;
-    }
-}
-</script>
 <?= $this->endSection() ?> 

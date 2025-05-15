@@ -35,6 +35,16 @@ class DirectusApi
         return $all_items['data']['data'];
     }
 
+    public function getFields($collection)
+    {
+        $items = $this->directusClient->fields($collection);
+
+        // Get all items
+        $all_items = $items->get();
+
+        return $all_items['data']['data'];
+    }
+
     public function createItem($collection, $data)
     {
         try {

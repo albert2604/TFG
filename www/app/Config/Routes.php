@@ -50,6 +50,15 @@ $routes->get('cines/admin/ver/(:segment)', 'CinesController::ver/$1');
 $routes->get('cines/admin/list', 'CinesController::index');
 $routes->get('cines/admin/doEliminar/(:segment)', 'CinesController::doEliminar/$1');
 
+// Rutas de Salas (admin)
+$routes->post('salas/admin/doCrear', 'SalasController::doCrear');
+$routes->get('salas/admin/crear', 'SalasController::crear');
+$routes->get('salas/admin/editar/(:segment)', 'SalasController::editar/$1');
+$routes->post('salas/admin/doEditar/(:segment)', 'SalasController::doEditar/$1');
+$routes->get('salas/admin/ver/(:segment)', 'SalasController::ver/$1');
+$routes->get('salas/admin/list', 'SalasController::index');
+$routes->get('salas/admin/doEliminar/(:segment)', 'SalasController::doEliminar/$1');
+
 // // Mis reservas (solo usuario logueado)
 // $routes->get('mis-reservas', 'Reservas::misReservas');
 

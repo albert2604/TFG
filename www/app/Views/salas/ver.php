@@ -25,22 +25,22 @@
                                 <strong>Capacidad:</strong> <?= $sala->getCapacidad() ?> asientos
                             </li>
                             <li class="list-group-item">
-                                <strong>Tipo:</strong> <?= $sala->getTipo() ?>
+                                <strong>Tipo:</strong> <?= $sala->getTipoSala() ?>
                             </li>
                             <li class="list-group-item">
                                 <strong>Estado:</strong>
-                                <span class="badge <?= $sala->estaActiva() ? 'bg-success' : 'bg-danger' ?>">
-                                    <?= $sala->estaActiva() ? 'Activa' : 'Inactiva' ?>
+                                <span class="badge <?= $sala->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
+                                    <?= $sala->estaActivo() ? 'Activo' : 'Eliminado' ?>
                                 </span>
                             </li>
                         </ul>
                     </div>
 
                     <div class="d-grid gap-2">
-                        <a href="<?= base_url('salas/editar/' . $sala->getId()) ?>" class="btn btn-primary">
+                        <a href="<?= base_url('salas/admin/editar/' . $sala->getId()) ?>" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Editar Sala
                         </a>
-                        <a href="<?= base_url('salas') ?>" class="btn btn-secondary">
+                        <a href="<?= base_url('salas/admin/list') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver al Listado
                         </a>
                     </div>

@@ -1,58 +1,64 @@
 <?php
+
 namespace App\Models;
 
+use App\Libraries\DirectusApi;
 use CodeIgniter\Model;
+use App\Classes\Sala;
 
 class SalaModel extends Model
 {
-    protected $apiUrl = 'http://localhost:8055/items/salas';
+    protected $directusApi;
+
+    public function __construct()
+    {
+        $this->directusApi = new DirectusApi();
+    }
 
     public function getSalas()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            $data['data'] = array_map(function($salaData) {
-                return new Sala($salaData);
-            }, $data['data']);
+        $salas = $this->directusApi->getAllItems('salas');
+
+        if ($salas === null) {
+            return null;
         }
-        return $data;
+        $salas = array_map(fn($salaData) => new Sala($salaData), $salas);
+
+        return $salas;
     }
 
     public function getSalaById($id)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl . '/' . $id);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            return new Sala($data['data']);
-        }
-        return null;
+        $result = $this->directusApi->getItemById("salas", $id);
+        return $result;
     }
 
-    public function crearSala(Sala $sala)
+    public function getTiposSalas()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->post($this->apiUrl, [
-            'json' => $sala->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $fields = $this->directusApi->getFields("salas");
+
+        $filtered = array_values(array_filter($fields, function ($field) {
+            return isset($field['field']) && $field['field'] === 'tipo_sala';
+        }));
+
+        return $filtered[0]['meta']['options']['choices'] ?? [];
     }
 
-    public function actualizarSala(Sala $sala)
+    public function crearSala($sala)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->patch($this->apiUrl . '/' . $sala->getId(), [
-            'json' => $sala->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->createItem("salas", $sala);
+        return $result;
     }
 
-    public function eliminarSala($id)
+    public function editarSala($id, $sala)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->delete($this->apiUrl . '/' . $id);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->updateItemById("salas", $id, $sala);
+        return $result;
     }
-} 
+
+    public function eliminarSala($id, $sala)
+    {
+        $result = $this->directusApi->deleteItemById("salas", $id, $sala);
+        return $result;
+    }
+}

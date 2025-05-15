@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('salas/crear') ?>" method="post">
+                    <form action="<?= base_url('salas/admin/doCrear') ?>" method="post">
                         <div class="mb-3">
                             <label for="cine_id" class="form-label">Cine</label>
                             <select class="form-select" id="cine_id" name="cine_id" required>
@@ -37,27 +37,26 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="tipo" class="form-label">Tipo de Sala</label>
-                            <select class="form-select" id="tipo" name="tipo" required>
+                            <label for="tipo_sala" class="form-label">Tipo de Sala</label>
+                            <select class="form-select" id="tipo_sala" name="tipo_sala" required>
                                 <option value="">Seleccione un tipo</option>
-                                <option value="2D">2D</option>
-                                <option value="3D">3D</option>
-                                <option value="IMAX">IMAX</option>
-                                <option value="VIP">VIP</option>
+                                <<?php foreach ($tipos as $tipo): ?>
+                                    <option value="<?= $tipo['value'] ?>"><?= $tipo['text'] ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-select" id="status" name="status">
                                 <option value="activo">Activa</option>
-                                <option value="inactivo">Inactiva</option>
+                                <option value="eliminado">Eliminado</option>
                             </select>
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Crear Sala</button>
-                            <a href="<?= base_url('salas') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('salas/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>
@@ -65,4 +64,4 @@
         </div>
     </div>
 </div>
-<?= $this->endSection() ?> 
+<?= $this->endSection() ?>
