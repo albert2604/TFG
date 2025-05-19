@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('funciones/crear') ?>" method="post">
+                    <form action="<?= base_url('funciones/admin/doCrear') ?>" method="post">
                         <div class="mb-3">
                             <label for="pelicula_id" class="form-label">Película</label>
                             <select class="form-select" id="pelicula_id" name="pelicula_id" required>
@@ -59,25 +59,25 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="precio_base" class="form-label">Precio Base</label>
+                            <label for="precio" class="form-label">Precio Base</label>
                             <div class="input-group">
                                 <span class="input-group-text">€</span>
-                                <input type="number" class="form-control" id="precio_base" name="precio_base" 
+                                <input type="number" class="form-control" id="precio" name="precio" 
                                        step="0.01" min="0" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
-                                <option value="activo">Activa</option>
-                                <option value="inactivo">Inactiva</option>
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="activo">Activo</option>
+                                <option value="eliminado">Eliminado</option>
                             </select>
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Crear Función</button>
-                            <a href="<?= base_url('funciones') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('funciones/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

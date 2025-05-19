@@ -58,6 +58,19 @@ $routes->post('salas/admin/doEditar/(:segment)', 'SalasController::doEditar/$1')
 $routes->get('salas/admin/ver/(:segment)', 'SalasController::ver/$1');
 $routes->get('salas/admin/list', 'SalasController::index');
 $routes->get('salas/admin/doEliminar/(:segment)', 'SalasController::doEliminar/$1');
+$routes->get('salas/admin/estructura/(:segment)', 'SalasController::estructura/$1');
+$routes->post('salas/admin/doEstructura/(:segment)', 'SalasController::doEstructura/$1');
+$routes->get('salas/admin/estructura', 'SalasController::estructura');
+
+
+// Rutas de Funciones (admin)
+$routes->post('funciones/admin/doCrear', 'FuncionesController::doCrear');
+$routes->get('funciones/admin/crear', 'FuncionesController::crear');
+$routes->get('funciones/admin/editar/(:segment)', 'FuncionesController::editar/$1');
+$routes->post('funciones/admin/doEditar/(:segment)', 'FuncionesController::doEditar/$1');
+$routes->get('funciones/admin/ver/(:segment)', 'FuncionesController::ver/$1');
+$routes->get('funciones/admin/list', 'FuncionesController::index');
+$routes->get('funciones/admin/doEliminar/(:segment)', 'FuncionesController::doEliminar/$1');
 
 // // Mis reservas (solo usuario logueado)
 // $routes->get('mis-reservas', 'Reservas::misReservas');

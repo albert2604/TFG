@@ -55,6 +55,11 @@
                                 <a href="<?= base_url('salas/admin/editar/' . $sala->getId()) ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
+
+                                <a href="<?= base_url('salas/admin/estructura/'.$sala->getId()) ?>" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-couch"></i>
+                                </a>
+
                                 <a href="<?= base_url('salas/admin/doEliminar/' . $sala->getId()) ?>" class="btn btn-danger">
                                 <i class="fa fa-edit"></i> 
                             </a>

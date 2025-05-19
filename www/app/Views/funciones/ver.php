@@ -56,8 +56,8 @@
 
                                 <dt class="col-sm-4">Estado:</dt>
                                 <dd class="col-sm-8">
-                                    <span class="badge <?= $funcion->estaActiva() ? 'bg-success' : 'bg-danger' ?>">
-                                        <?= $funcion->estaActiva() ? 'Activa' : 'Inactiva' ?>
+                                    <span class="badge <?= $funcion->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
+                                        <?= $funcion->estaActivo() ? 'Activo' : 'Eliminado' ?>
                                     </span>
                                 </dd>
                             </dl>
@@ -83,11 +83,11 @@
                     </div>
 
                     <div class="mt-4">
-                        <a href="<?= base_url('funciones/editar/' . $funcion->getId()) ?>" 
+                        <a href="<?= base_url('funciones/admin/editar/' . $funcion->getId()) ?>" 
                            class="btn btn-primary">
                             <i class="fas fa-edit"></i> Editar Función
                         </a>
-                        <a href="<?= base_url('funciones') ?>" class="btn btn-secondary">
+                        <a href="<?= base_url('funciones/admin/list') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver al Listado
                         </a>
                     </div>

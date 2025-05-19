@@ -1,58 +1,52 @@
 <?php
 namespace App\Models;
 
+use App\Libraries\DirectusApi;
 use CodeIgniter\Model;
+use App\Classes\Funcion;
 
 class FuncionModel extends Model
 {
-    protected $apiUrl = 'http://localhost:8055/items/funciones';
+   protected $directusApi;
+
+    public function __construct()
+    {
+        $this->directusApi = new DirectusApi();
+    }
 
     public function getFunciones()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            $data['data'] = array_map(function($funcionData) {
-                return new Funcion($funcionData);
-            }, $data['data']);
+        $funciones = $this->directusApi->getAllItems('funciones');
+
+        if ($funciones === null) {
+            return null;
         }
-        return $data;
+        $funciones = array_map(fn($funcionData) => new Funcion($funcionData), $funciones);
+
+        return $funciones;
     }
 
     public function getFuncionById($id)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl . '/' . $id);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            return new Funcion($data['data']);
-        }
-        return null;
+         $result = $this->directusApi->getItemById("funciones", $id);
+        return $result;
     }
 
-    public function crearFuncion(Funcion $funcion)
+    public function crearFuncion($funcion)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->post($this->apiUrl, [
-            'json' => $funcion->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->createItem("funciones", $funcion);
+        return $result;
     }
 
-    public function actualizarFuncion(Funcion $funcion)
+    public function editarFuncion($id, $funcion)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->patch($this->apiUrl . '/' . $funcion->getId(), [
-            'json' => $funcion->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->updateItemById("funciones", $id, $funcion);
+        return $result;
     }
 
-    public function eliminarFuncion($id)
+    public function eliminarFuncion($id, $funcion)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->delete($this->apiUrl . '/' . $id);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->deleteItemById("funciones", $id, $funcion);
+        return $result;
     }
 } 

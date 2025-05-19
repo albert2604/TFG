@@ -123,6 +123,7 @@ class DirectusApi
 
             // Crear elemento
             $item = $items->get($filters);
+            
 
             return $item['data']['data'];
         } catch (\Throwable $th) {

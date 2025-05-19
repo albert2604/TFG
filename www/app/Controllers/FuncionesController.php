@@ -6,7 +6,7 @@ use App\Models\PeliculaModel;
 use App\Models\SalaModel;
 use App\Classes\Funcion;
 
-class FuncionesController extends BaseController
+class FuncionesController extends AdminController
 {
     protected $funcionModel;
     protected $peliculaModel;
@@ -14,6 +14,8 @@ class FuncionesController extends BaseController
 
     public function __construct()
     {
+
+        parent::__construct();
         $this->funcionModel = new FuncionModel();
         $this->peliculaModel = new PeliculaModel();
         $this->salaModel = new SalaModel();
@@ -21,102 +23,146 @@ class FuncionesController extends BaseController
 
     public function index()
     {
-        $data = $this->funcionModel->getFunciones();
-        return view('funciones/index', ['funciones' => $data['data']]);
+        $funciones = $this->funcionModel->getFunciones();
+        return view('funciones/index', ['funciones' => $funciones]);
     }
 
     public function crear()
     {
-        // Verificar si es administrador
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/')->with('error', 'No tiene permisos para acceder a esta sección');
-        }
+        $peliculas = $this->peliculaModel->getPelicula();
+        $salas = $this->salaModel->getSalas();
 
-        if ($this->request->getMethod() === 'post') {
-            $funcion = new Funcion([
-                'pelicula_id' => $this->request->getPost('pelicula_id'),
-                'sala_id' => $this->request->getPost('sala_id'),
-                'fecha' => $this->request->getPost('fecha'),
-                'hora_inicio' => $this->request->getPost('hora_inicio'),
-                'hora_fin' => $this->request->getPost('hora_fin'),
-                'precio_base' => $this->request->getPost('precio_base'),
-                'estado' => $this->request->getPost('estado') ?? 'activo'
-            ]);
-
-            $resultado = $this->funcionModel->crearFuncion($funcion);
-            
-            if ($resultado) {
-                return redirect()->to('/funciones')->with('mensaje', 'Función creada exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al crear la función');
-        }
-
-        $peliculas = $this->peliculaModel->getPeliculas()['data'];
-        $salas = $this->salaModel->getSalas()['data'];
-        return view('funciones/crear', ['peliculas' => $peliculas, 'salas' => $salas]);
+        return view('funciones/crear', ['peliculas' => $peliculas, 'salas'=> $salas]);
     }
 
-    public function editar($id)
+    public function doCrear()
     {
-        // Verificar si es administrador
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/')->with('error', 'No tiene permisos para acceder a esta sección');
+       //VALIDAMOS LA ENTRADA DE LA SALA
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'pelicula_id' => 'required',
+            'sala_id' => 'required',
+            'fecha' => 'required',
+            'hora_inicio' => 'required',
+            'hora_fin' => 'required',
+            'precio' => 'required',
+            'status' => 'required',
+        ]);
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            $peliculas = $this->peliculaModel->getPelicula();
+            $salas = $this->salaModel->getSalas();
+            return view('salas/crear', [
+                'validation' => $validation,
+                'salas' => $salas,
+                'peliculas' => $peliculas
+            ]);
         }
+
+        //SI TODO ES CORRECTO CREAMOS LA sala
+        $data = [
+            'pelicula_id' => $this->request->getPost('pelicula_id'),
+            'sala_id' => $this->request->getPost('sala_id'),
+            'fecha' => $this->request->getPost('fecha'),
+            'hora_inicio' => $this->request->getPost('hora_inicio'),
+            'hora_fin' => $this->request->getPost('hora_fin'),
+            'precio' => $this->request->getPost('precio'),
+            'status' => $this->request->getPost('status') ?? 'activo'
+        ];
+
+        $funcion = $this->funcionModel->crearFuncion($data);
+        if ($funcion['id']) {
+            return redirect()->to('funciones/admin/list/');
+        }
+    }
+
+
+    public function editar($id){
+         $funcion = $this->funcionModel->getFuncionById($id);
+         $salas = $this->salaModel->getsalas();
+         $peliculas = $this->peliculaModel->getPelicula();
+
+        if (!$funcion) {
+            return redirect()->to('/funciones/admin/list')->with('error', 'Funcion no encontrado');
+        }
+
+        return view('funciones/editar', ['funcion' => new Funcion($funcion), 'salas' => $salas, 'peliculas' => $peliculas]);
+    }
+
+    public function doEditar($id)
+    {
 
         $funcion = $this->funcionModel->getFuncionById($id);
         
         if (!$funcion) {
-            return redirect()->to('/funciones')->with('error', 'Función no encontrada');
+            return redirect()->to('/funciones/admin/list')->with('error', 'Función no encontrada');
         }
 
-        if ($this->request->getMethod() === 'post') {
-            $funcion->setPeliculaId($this->request->getPost('pelicula_id'));
-            $funcion->setSalaId($this->request->getPost('sala_id'));
-            $funcion->setFecha($this->request->getPost('fecha'));
-            $funcion->setHoraInicio($this->request->getPost('hora_inicio'));
-            $funcion->setHoraFin($this->request->getPost('hora_fin'));
-            $funcion->setPrecioBase($this->request->getPost('precio_base'));
-            $funcion->setEstado($this->request->getPost('estado'));
+        //VALIDAMOS LA ENTRADA DE LA SALA
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'pelicula_id' => 'required',
+            'sala_id' => 'required',
+            'fecha' => 'required',
+            'hora_inicio' => 'required',
+            'hora_fin' => 'required',
+            'precio' => 'required',
+            'status' => 'required',
+        ]);
 
-            $resultado = $this->funcionModel->actualizarFuncion($funcion);
-            
-            if ($resultado) {
-                return redirect()->to('/funciones')->with('mensaje', 'Función actualizada exitosamente');
-            }
-            
-            return redirect()->back()->with('error', 'Error al actualizar la función');
+        //SI TODO ES CORRECTO CREAMOS LA sala
+        $data = [
+            'pelicula_id' => $this->request->getPost('pelicula_id'),
+            'sala_id' => $this->request->getPost('sala_id'),
+            'fecha' => $this->request->getPost('fecha'),
+            'hora_inicio' => $this->request->getPost('hora_inicio'),
+            'hora_fin' => $this->request->getPost('hora_fin'),
+            'precio' => $this->request->getPost('precio'),
+            'status' => $this->request->getPost('status') ?? 'activo'
+        ];
+
+        //SI FALLA MOSTRAMOS ERROR
+        if (!$validation->withRequest($this->request)->run()) {
+            $peliculas = $this->peliculaModel->getPelicula();
+            $salas = $this->salaModel->getSalas();
+            return view('salas/crear', [
+                'funcion' => new Funcion($data),
+                'validation' => $validation,
+                'salas' => $salas,
+                'peliculas' => $peliculas
+            ]);
         }
 
-        $peliculas = $this->peliculaModel->getPeliculas()['data'];
-        $salas = $this->salaModel->getSalas()['data'];
-        return view('funciones/editar', ['funcion' => $funcion, 'peliculas' => $peliculas, 'salas' => $salas]);
+        $funcion = $this->funcionModel->editarFuncion($id,$data);
+        if ($funcion['id']) {
+            return redirect()->to('funciones/admin/list/');
+        }
     }
 
-    public function eliminar($id)
+    public function doEliminar($id)
     {
-        // Verificar si es administrador
-        if (!session()->get('is_admin')) {
-            return redirect()->to('/')->with('error', 'No tiene permisos para acceder a esta sección');
+       $funcionId = $this->funcionModel->getFuncionById($id);
+
+        if (!$funcionId) {
+            return redirect()->to('/funciones/admin/list')->with('error', 'Funcion no encontrado');
         }
 
-        $resultado = $this->funcionModel->eliminarFuncion($id);
-        
-        if ($resultado) {
-            return redirect()->to('/funciones')->with('mensaje', 'Función eliminada exitosamente');
+        $funcion = $this->funcionModel->eliminarFuncion($id, ['status' => 'eliminado']);
+
+        if ($funcion['id']) {
+            return redirect()->to('funciones/admin/list');
         }
-        
-        return redirect()->back()->with('error', 'Error al eliminar la función');
     }
 
     public function ver($id)
     {
-        $funcion = $this->funcionModel->getFuncionById($id);
-        
+         $funcion = $this->funcionModel->getFuncionById($id);
+
         if (!$funcion) {
-            return redirect()->to('/funciones')->with('error', 'Función no encontrada');
+            return redirect()->to('/funciones/admin/list')->with('error', 'funcion no encontrado');
         }
 
-        return view('funciones/ver', ['funcion' => $funcion]);
+        return view('funciones/ver', ['funcion' => new Funcion($funcion)]);
     }
 } 

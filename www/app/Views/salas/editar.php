@@ -46,7 +46,7 @@
                             <select class="form-select" id="tipo_sala" name="tipo_sala" required>
                                 <option value="">Seleccione un tipo</option>
                                 <<?php foreach ($tipos as $tipo): ?>
-                                    <option value="<?= $tipo['value'] ?>"><?= $tipo['text'] ?></option>
+                                    <option value="<?= $tipo['value'] ?>" <?= $sala->getTipoSala() ==$tipo['value'] ? 'selected' : '' ?>><?= $tipo['text'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -61,6 +61,8 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Actualizar Sala</button>
+                            
+                            <a href="<?= base_url('salas/admin/estructura/'.$sala->getId()) ?>" class="btn btn-success">Estructura</a>
                             <a href="<?= base_url('salas/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
