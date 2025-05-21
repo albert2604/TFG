@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('reservas/crear') ?>" method="post">
+                    <form action="<?= base_url('/reservas/admin/doCrear') ?>" method="post">
                         <div class="mb-3">
                             <label for="funcion_id" class="form-label">Función</label>
                             <select class="form-select" id="funcion_id" name="funcion_id" required>
@@ -44,9 +44,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="fecha_reserva" class="form-label">Fecha de Reserva</label>
-                            <input type="datetime-local" class="form-control" id="fecha_reserva" 
-                                   name="fecha_reserva" required>
+                            <label for="fecha_hora" class="form-label">Fecha de Reserva</label>
+                            <input type="datetime-local" class="form-control" id="fecha_hora" 
+                                   name="fecha_hora" required>
                         </div>
 
                         <div class="mb-3">
@@ -59,8 +59,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-select" id="status" name="status">
                                 <option value="pendiente">Pendiente</option>
                                 <option value="confirmada">Confirmada</option>
                                 <option value="cancelada">Cancelada</option>
@@ -69,7 +69,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Crear Reserva</button>
-                            <a href="<?= base_url('reservas') ?>" class="btn btn-secondary">Cancelar</a>
+                            <a href="<?= base_url('reservas/admin/list') ?>" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>

@@ -1,34 +1,41 @@
 <?php
 namespace App\Classes;
 
+use App\Libraries\DirectusApi;
+
 class Reserva {
     private $id;
     private $usuario_id;
     private $funcion_id;
-    private $fecha_reserva;
-    private $estado;
+    private $fecha_hora;
+    private $status;
     private $total;
+    protected $directusApi;
 
     public function __construct($data = []) {
         $this->id = $data['id'] ?? null;
         $this->usuario_id = $data['usuario_id'] ?? null;
         $this->funcion_id = $data['funcion_id'] ?? null;
-        $this->fecha_reserva = $data['fecha_reserva'] ?? '';
-        $this->estado = $data['estado'] ?? 'pendiente';
+        $this->fecha_hora = $data['fecha_hora'] ?? '';
+        $this->status = $data['status'] ?? 'pendiente';
         $this->total = $data['total'] ?? 0.0;
+        $this->directusApi = new DirectusApi();
     }
 
     public function getId() { return $this->id; }
     public function getUsuarioId() { return $this->usuario_id; }
     public function getFuncionId() { return $this->funcion_id; }
-    public function getFechaReserva() { return $this->fecha_reserva; }
-    public function getEstado() { return $this->estado; }
+    public function getFechaHora() { return $this->fecha_hora; }
+    public function getStatus() { return $this->status; }
     public function getTotal() { return $this->total; }
+
+    public function getUsuario() { return new Usuario($this->directusApi->getItemById('usuarios', $this->usuario_id));}
+    public function getFuncion() { return new Funcion($this->directusApi->getItemById('funciones', $this->funcion_id));}
 
     public function setUsuarioId($usuario_id) { $this->usuario_id = $usuario_id; }
     public function setFuncionId($funcion_id) { $this->funcion_id = $funcion_id; }
-    public function setFechaReserva($fecha_reserva) { $this->fecha_reserva = $fecha_reserva; }
-    public function setEstado($estado) { $this->estado = $estado; }
+    public function setFechaHora($fecha_hora) { $this->fecha_hora = $fecha_hora; }
+    public function setStatus($status) { $this->status = $status; }
     public function setTotal($total) { $this->total = $total; }
 
     public function toArray() {
@@ -36,26 +43,26 @@ class Reserva {
             'id' => $this->id,
             'usuario_id' => $this->usuario_id,
             'funcion_id' => $this->funcion_id,
-            'fecha_reserva' => $this->fecha_reserva,
-            'estado' => $this->estado,
+            'fecha_hora' => $this->fecha_hora,
+            'status' => $this->status,
             'total' => $this->total
         ];
     }
 
     public function estaPendiente() {
-        return $this->estado === 'pendiente';
+        return $this->status === 'pendiente';
     }
 
     public function estaCompletada() {
-        return $this->estado === 'completada';
+        return $this->status === 'completada';
     }
 
     public function estaCancelada() {
-        return $this->estado === 'cancelada';
+        return $this->status === 'cancelada';
     }
 
     public function getFechaReservaFormateada() {
-        return date('d/m/Y H:i', strtotime($this->fecha_reserva));
+        return date('d/m/Y H:i', strtotime($this->fecha_hora));
     }
 
     public function getTotalFormateado() {

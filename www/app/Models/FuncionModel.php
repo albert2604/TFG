@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Libraries\DirectusApi;
@@ -7,7 +8,7 @@ use App\Classes\Funcion;
 
 class FuncionModel extends Model
 {
-   protected $directusApi;
+    protected $directusApi;
 
     public function __construct()
     {
@@ -28,7 +29,7 @@ class FuncionModel extends Model
 
     public function getFuncionById($id)
     {
-         $result = $this->directusApi->getItemById("funciones", $id);
+        $result = $this->directusApi->getItemById("funciones", $id);
         return $result;
     }
 
@@ -49,4 +50,4 @@ class FuncionModel extends Model
         $result = $this->directusApi->deleteItemById("funciones", $id, $funcion);
         return $result;
     }
-} 
+}

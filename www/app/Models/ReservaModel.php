@@ -1,58 +1,54 @@
 <?php
 namespace App\Models;
 
+use App\Libraries\DirectusApi;
 use CodeIgniter\Model;
+use App\Classes\Reserva;
+
 
 class ReservaModel extends Model
 {
-    protected $apiUrl = 'http://localhost:8055/items/reservas';
+    protected $directusApi;
+
+    public function __construct()
+    {
+        $this->directusApi = new DirectusApi();
+    }
 
     public function getReservas()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            $data['data'] = array_map(function($reservaData) {
-                return new Reserva($reservaData);
-            }, $data['data']);
+         $reservas = $this->directusApi->getAllItems('reservas');
+
+        if ($reservas === null) {
+            return null;
         }
-        return $data;
+        $reservas = array_map(fn($reservaData) => new Reserva($reservaData), $reservas);
+
+        return $reservas;
     }
 
     public function getReservaById($id)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->get($this->apiUrl . '/' . $id);
-        $data = json_decode($response->getBody(), true);
-        if (isset($data['data'])) {
-            return new Reserva($data['data']);
-        }
-        return null;
+        $result = $this->directusApi->getItemById("reservas", $id);
+        return $result;
     }
 
-    public function crearReserva(Reserva $reserva)
+    public function crearReserva($reserva)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->post($this->apiUrl, [
-            'json' => $reserva->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->createItem("reservas", $reserva);
+        return $result;
     }
 
-    public function actualizarReserva(Reserva $reserva)
+    public function editarReserva($id, $reserva)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->patch($this->apiUrl . '/' . $reserva->getId(), [
-            'json' => $reserva->toArray()
-        ]);
-        return json_decode($response->getBody(), true);
+        
+        $result = $this->directusApi->updateItemById("reservas", $id, $reserva);
+        return $result;
     }
 
-    public function eliminarReserva($id)
+     public function eliminarReserva($id, $reserva)
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->delete($this->apiUrl . '/' . $id);
-        return json_decode($response->getBody(), true);
+        $result = $this->directusApi->deleteItemById("reservas", $id, $reserva);
+        return $result;
     }
 } 

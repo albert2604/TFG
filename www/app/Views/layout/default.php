@@ -33,7 +33,7 @@
                 <li class="nav-item"><a class="nav-link" href="/peliculas/admin/list">Películas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/funciones/admin/list">Funciones</a></li>
                 <li class="nav-item"><a class="nav-link" href="/salas/admin/list">Salas</a></li>
-                <li class="nav-item"><a class="nav-link" href="reservas/crear">Reservas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/reservas/admin/list">Reservas</a></li>
                 <?php if (session()->get('isLoggedIn')): ?>
                     <li class="nav-item"><a class="nav-link" href="/mis-reservas">Mis reservas</a></li>
                 <?php endif; ?>

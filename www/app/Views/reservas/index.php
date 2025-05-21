@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Reservas</h1>
-        <a href="<?= base_url('reservas/crear') ?>" class="btn btn-primary">
+        <a href="<?= base_url('reservas/admin/crear') ?>" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nueva Reserva
         </a>
     </div>
@@ -45,8 +45,8 @@
                         <td><?= $reserva->getFechaReservaFormateada() ?></td>
                         <td><?= $reserva->getTotalFormateado() ?></td>
                         <td>
-                            <span class="badge <?= $reserva->estaConfirmada() ? 'bg-success' : 'bg-warning' ?>">
-                                <?= $reserva->getEstado() ?>
+                            <span class="badge <?= $reserva->estaCompletada() ? 'bg-success' : 'bg-warning' ?>">
+                                <?= $reserva->getStatus() ?>
                             </span>
                         </td>
                         <td>

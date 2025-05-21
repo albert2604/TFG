@@ -46,9 +46,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="fecha_reserva" class="form-label">Fecha de Reserva</label>
-                            <input type="datetime-local" class="form-control" id="fecha_reserva" 
-                                   name="fecha_reserva" value="<?= $reserva->getFechaReserva() ?>" required>
+                            <label for="fecha_hora" class="form-label">Fecha de Reserva</label>
+                            <input type="datetime-local" class="form-control" id="fecha_hora" 
+                                   name="fecha_hora" value="<?= $reserva->getFechaReserva() ?>" required>
                         </div>
 
                         <div class="mb-3">
@@ -61,15 +61,15 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
-                                <option value="pendiente" <?= $reserva->getEstado() === 'pendiente' ? 'selected' : '' ?>>
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="pendiente" <?= $reserva->getStatus() === 'pendiente' ? 'selected' : '' ?>>
                                     Pendiente
                                 </option>
-                                <option value="confirmada" <?= $reserva->getEstado() === 'confirmada' ? 'selected' : '' ?>>
+                                <option value="confirmada" <?= $reserva->getStatus() === 'confirmada' ? 'selected' : '' ?>>
                                     Confirmada
                                 </option>
-                                <option value="cancelada" <?= $reserva->getEstado() === 'cancelada' ? 'selected' : '' ?>>
+                                <option value="cancelada" <?= $reserva->getStatus() === 'cancelada' ? 'selected' : '' ?>>
                                     Cancelada
                                 </option>
                             </select>

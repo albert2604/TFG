@@ -72,8 +72,17 @@ $routes->get('funciones/admin/ver/(:segment)', 'FuncionesController::ver/$1');
 $routes->get('funciones/admin/list', 'FuncionesController::index');
 $routes->get('funciones/admin/doEliminar/(:segment)', 'FuncionesController::doEliminar/$1');
 
-// // Mis reservas (solo usuario logueado)
-// $routes->get('mis-reservas', 'Reservas::misReservas');
+// Rutas de Funciones (admin)
+$routes->post('reservas/admin/doCrear', 'ReservasController::doCrear');
+$routes->get('reservas/admin/crear', 'ReservasController::crear');
+$routes->get('reservas/admin/editar/(:segment)', 'ReservasController::editar/$1');
+$routes->post('reservas/admin/doEditar/(:segment)', 'ReservasController::doEditar/$1');
+$routes->get('reservas/admin/ver/(:segment)', 'ReservasController::ver/$1');
+$routes->get('reservas/admin/list', 'ReservasController::index');
+$routes->get('reservas/admin/doEliminar/(:segment)', 'ReservasController::doEliminar/$1');
+
+// Mis reservas (solo usuario logueado)
+$routes->get('mis-reservas', 'ReservasController::misReservas');
 
 // // Crear reserva (cualquier usuario logueado)
 // $routes->get('reservas/crear', 'Reservas::crear');

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\FuncionModel;
@@ -32,12 +33,12 @@ class FuncionesController extends AdminController
         $peliculas = $this->peliculaModel->getPelicula();
         $salas = $this->salaModel->getSalas();
 
-        return view('funciones/crear', ['peliculas' => $peliculas, 'salas'=> $salas]);
+        return view('funciones/crear', ['peliculas' => $peliculas, 'salas' => $salas]);
     }
 
     public function doCrear()
     {
-       //VALIDAMOS LA ENTRADA DE LA SALA
+        //VALIDAMOS LA ENTRADA DE LA SALA
         $validation = \Config\Services::validation();
         $validation->setRules([
             'pelicula_id' => 'required',
@@ -78,10 +79,11 @@ class FuncionesController extends AdminController
     }
 
 
-    public function editar($id){
-         $funcion = $this->funcionModel->getFuncionById($id);
-         $salas = $this->salaModel->getsalas();
-         $peliculas = $this->peliculaModel->getPelicula();
+    public function editar($id)
+    {
+        $funcion = $this->funcionModel->getFuncionById($id);
+        $salas = $this->salaModel->getsalas();
+        $peliculas = $this->peliculaModel->getPelicula();
 
         if (!$funcion) {
             return redirect()->to('/funciones/admin/list')->with('error', 'Funcion no encontrado');
@@ -94,7 +96,7 @@ class FuncionesController extends AdminController
     {
 
         $funcion = $this->funcionModel->getFuncionById($id);
-        
+
         if (!$funcion) {
             return redirect()->to('/funciones/admin/list')->with('error', 'Función no encontrada');
         }
@@ -134,7 +136,7 @@ class FuncionesController extends AdminController
             ]);
         }
 
-        $funcion = $this->funcionModel->editarFuncion($id,$data);
+        $funcion = $this->funcionModel->editarFuncion($id, $data);
         if ($funcion['id']) {
             return redirect()->to('funciones/admin/list/');
         }
@@ -142,7 +144,7 @@ class FuncionesController extends AdminController
 
     public function doEliminar($id)
     {
-       $funcionId = $this->funcionModel->getFuncionById($id);
+        $funcionId = $this->funcionModel->getFuncionById($id);
 
         if (!$funcionId) {
             return redirect()->to('/funciones/admin/list')->with('error', 'Funcion no encontrado');
@@ -157,7 +159,7 @@ class FuncionesController extends AdminController
 
     public function ver($id)
     {
-         $funcion = $this->funcionModel->getFuncionById($id);
+        $funcion = $this->funcionModel->getFuncionById($id);
 
         if (!$funcion) {
             return redirect()->to('/funciones/admin/list')->with('error', 'funcion no encontrado');
@@ -165,4 +167,4 @@ class FuncionesController extends AdminController
 
         return view('funciones/ver', ['funcion' => new Funcion($funcion)]);
     }
-} 
+}

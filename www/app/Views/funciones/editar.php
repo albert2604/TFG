@@ -22,7 +22,7 @@
                                 <option value="">Seleccione una película</option>
                                 <?php foreach ($peliculas as $pelicula): ?>
                                     <option value="<?= $pelicula->getId() ?>" 
-                                            <?= $funcion->getPeliculaId() === $pelicula->getId() ? 'selected' : '' ?>>
+                                            <?= $funcion->getPelicula() === $pelicula->getId() ? 'selected' : '' ?>>
                                         <?= $pelicula->getTitulo() ?>
                                     </option>
                                 <?php endforeach; ?>
