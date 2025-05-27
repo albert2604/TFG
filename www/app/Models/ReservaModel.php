@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Libraries\DirectusApi;
@@ -17,7 +18,7 @@ class ReservaModel extends Model
 
     public function getReservas()
     {
-         $reservas = $this->directusApi->getAllItems('reservas');
+        $reservas = $this->directusApi->getAllItems('reservas');
 
         if ($reservas === null) {
             return null;
@@ -33,6 +34,7 @@ class ReservaModel extends Model
         return $result;
     }
 
+
     public function crearReserva($reserva)
     {
         $result = $this->directusApi->createItem("reservas", $reserva);
@@ -41,14 +43,21 @@ class ReservaModel extends Model
 
     public function editarReserva($id, $reserva)
     {
-        
+
         $result = $this->directusApi->updateItemById("reservas", $id, $reserva);
         return $result;
     }
 
-     public function eliminarReserva($id, $reserva)
+    public function eliminarReserva($id, $reserva)
     {
         $result = $this->directusApi->deleteItemById("reservas", $id, $reserva);
         return $result;
     }
-} 
+    public function getReservasByFuncion($funcion_id)
+    {
+        $result = $this->directusApi->searchManyItems("reservas", array(
+            'filter[funcion_id][_eq]' => $funcion_id
+        ));
+        return $result;
+    }
+}

@@ -7,8 +7,8 @@ class Reserva {
     private $id;
     private $usuario_id;
     private $funcion_id;
-    private $fecha_hora;
     private $status;
+    private $butacas;
     private $total;
     protected $directusApi;
 
@@ -16,7 +16,7 @@ class Reserva {
         $this->id = $data['id'] ?? null;
         $this->usuario_id = $data['usuario_id'] ?? null;
         $this->funcion_id = $data['funcion_id'] ?? null;
-        $this->fecha_hora = $data['fecha_hora'] ?? '';
+        $this->butacas = $data['butacas'] ?? '';
         $this->status = $data['status'] ?? 'pendiente';
         $this->total = $data['total'] ?? 0.0;
         $this->directusApi = new DirectusApi();
@@ -25,7 +25,7 @@ class Reserva {
     public function getId() { return $this->id; }
     public function getUsuarioId() { return $this->usuario_id; }
     public function getFuncionId() { return $this->funcion_id; }
-    public function getFechaHora() { return $this->fecha_hora; }
+    public function getButacas() { return $this->butacas; }
     public function getStatus() { return $this->status; }
     public function getTotal() { return $this->total; }
 
@@ -34,7 +34,7 @@ class Reserva {
 
     public function setUsuarioId($usuario_id) { $this->usuario_id = $usuario_id; }
     public function setFuncionId($funcion_id) { $this->funcion_id = $funcion_id; }
-    public function setFechaHora($fecha_hora) { $this->fecha_hora = $fecha_hora; }
+    public function setButacas($butacas) { $this->butacas = $butacas; }
     public function setStatus($status) { $this->status = $status; }
     public function setTotal($total) { $this->total = $total; }
 
@@ -43,7 +43,7 @@ class Reserva {
             'id' => $this->id,
             'usuario_id' => $this->usuario_id,
             'funcion_id' => $this->funcion_id,
-            'fecha_hora' => $this->fecha_hora,
+            'butacas' => $this->butacas,
             'status' => $this->status,
             'total' => $this->total
         ];
@@ -60,11 +60,7 @@ class Reserva {
     public function estaCancelada() {
         return $this->status === 'cancelada';
     }
-
-    public function getFechaReservaFormateada() {
-        return date('d/m/Y H:i', strtotime($this->fecha_hora));
-    }
-
+    
     public function getTotalFormateado() {
         return number_format($this->total, 2, ',', '.') . '€';
     }

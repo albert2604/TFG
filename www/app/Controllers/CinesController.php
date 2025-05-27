@@ -111,7 +111,7 @@ class CinesController extends AdminController
 
         $cine = $this->cineModel->editarCine($id, $data);
         if ($cine['id']) {
-            return redirect()->to('cine/admin/list/');
+            return redirect()->to('cines/admin/list/');
         }
     }
 

@@ -14,7 +14,8 @@ class AuthController extends BaseController
     // Muestra el formulario de login
     public function login()
     {
-        return view('auth/login');
+        $usuarios = $this->usuariosModel->getUsuarios();
+        return view('auth/login', ['usuarios' => $usuarios]);
     }
 
     // Procesa el login
@@ -80,15 +81,15 @@ class AuthController extends BaseController
             'nombre' => $this->request->getPost('nombre'),
             'apellidos' => $this->request->getPost('apellidos'),
             'email' => $this->request->getPost('email'),
-            'contrasena' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'telefono' => $this->request->getPost('telefono'),
             'rol' => 'cliente',
-            'estado' => 'activo',
+            'status' => 'activo',
         ];
 
         $user = $this->usuariosModel->crearUsuario($data);  
         if ($user['id']){
-            return redirect()->to('usuarios/ver/'.$user['id']);
+            return redirect()->to('/');
         }
     }
 } 

@@ -15,6 +15,21 @@ class FuncionModel extends Model
         $this->directusApi = new DirectusApi();
     }
 
+    public function filtrarFunciones($cineId, $peliculaId = null){
+
+        $filtros = array( 
+            'filter[sala_id][cine_id][id][_eq]' => $cineId,
+            'fields' => 'id,pelicula_id.id,pelicula_id.titulo,sala_id.id,sala_id.nombre,hora_inicio,hora_fin,fecha' 
+        );
+
+        if($peliculaId != null){
+            $filtros['filter[pelicula_id][id][_eq]'] = $peliculaId;
+        }
+
+        $funciones = $this->directusApi->searchManyItems('funciones', $filtros);
+        return $funciones;
+    }
+
     public function getFunciones()
     {
         $funciones = $this->directusApi->getAllItems('funciones');

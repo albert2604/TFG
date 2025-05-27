@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Reservas</h1>
-        <a href="<?= base_url('reservas/admin/crear') ?>" class="btn btn-primary">
+        <a href="<?= base_url('/wizard') ?>" class="btn btn-primary">
             <i class="fas fa-plus"></i> Nueva Reserva
         </a>
     </div>
@@ -42,7 +42,6 @@
                         <td><?= $reserva->getFuncion()->getPelicula()->getTitulo() ?></td>
                         <td><?= $reserva->getFuncion()->getSala()->getNombre() ?></td>
                         <td><?= $reserva->getUsuario()->getNombreCompleto() ?></td>
-                        <td><?= $reserva->getFechaReservaFormateada() ?></td>
                         <td><?= $reserva->getTotalFormateado() ?></td>
                         <td>
                             <span class="badge <?= $reserva->estaCompletada() ? 'bg-success' : 'bg-warning' ?>">

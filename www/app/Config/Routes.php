@@ -17,7 +17,7 @@ $routes->get('auth/logout', 'AuthController::logout');
 
 // Registro público
 $routes->get('auth/register', 'AuthController::register');
-$routes->post('auth/register', 'AuthController::doRegister');
+$routes->post('auth/doRegister', 'AuthController::doRegister');
 
 // Rutas de usuarios (admin)
 $routes->get('usuarios/admin/list', 'UsuariosAdminController::index');
@@ -72,30 +72,19 @@ $routes->get('funciones/admin/ver/(:segment)', 'FuncionesController::ver/$1');
 $routes->get('funciones/admin/list', 'FuncionesController::index');
 $routes->get('funciones/admin/doEliminar/(:segment)', 'FuncionesController::doEliminar/$1');
 
-// Rutas de Funciones (admin)
-$routes->post('reservas/admin/doCrear', 'ReservasController::doCrear');
+// Rutas de reserevas (admin)
 $routes->get('reservas/admin/crear', 'ReservasController::crear');
+$routes->get('reservas/mis-reservas', 'ReservasController::misReservas');
 $routes->get('reservas/admin/editar/(:segment)', 'ReservasController::editar/$1');
 $routes->post('reservas/admin/doEditar/(:segment)', 'ReservasController::doEditar/$1');
 $routes->get('reservas/admin/ver/(:segment)', 'ReservasController::ver/$1');
 $routes->get('reservas/admin/list', 'ReservasController::index');
 $routes->get('reservas/admin/doEliminar/(:segment)', 'ReservasController::doEliminar/$1');
 
-// Mis reservas (solo usuario logueado)
-$routes->get('mis-reservas', 'ReservasController::misReservas');
 
-// // Crear reserva (cualquier usuario logueado)
-// $routes->get('reservas/crear', 'Reservas::crear');
-// $routes->post('reservas/store', 'Reservas::store');
+$routes->get('wizard', 'WizardController::index');
+$routes->post('wizard/doCrear', 'WizardController::doCrear');
+$routes->get('wizard/filtrar/(:segment)', 'WizardController::filtrarFunciones/$1');
+$routes->get('wizard/filtrar/(:segment)/(:segment)', 'WizardController::filtrarFunciones/$1/$2');
+$routes->get('wizard/estructura/(:segment)/(:segment)', 'WizardController::obtenerEstructura/$1/$2');
 
-// // Crear función (solo admin)
-// $routes->get('funciones/create', 'Funciones::create');
-// $routes->post('funciones/store', 'Funciones::store');
-
-// // Crear sala (solo admin)
-// $routes->get('salas/create', 'Salas::create');
-// $routes->post('salas/store', 'Salas::store');
-
-// // Crear butaca (solo admin)
-// $routes->get('butacas/create', 'Butacas::create');
-// $routes->post('butacas/store', 'Butacas::store');

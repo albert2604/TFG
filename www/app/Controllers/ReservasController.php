@@ -57,9 +57,8 @@ class ReservasController extends AdminController
         $validation->setRules([
             'funcion_id' => 'required',
             'usuario_id' => 'required',
-            'fecha_hora' => 'required',
+            'butacas' => 'required',
             'total' => 'required',
-            'status' => 'required',
         ]);
 
         //SI FALLA MOSTRAMOS ERROR
@@ -78,7 +77,7 @@ class ReservasController extends AdminController
         $data = [
             'funcion_id' => $this->request->getPost('funcion_id'),
             'usuario_id' => $this->request->getPost('usuario_id'),
-            'fecha_hora' => $this->request->getPost('fecha_hora'),
+            'butacas' => $this->request->getPost('butacas'),
             'total' => $this->request->getPost('total'),
             'status' => $this->request->getPost('status') ?? 'pendiente'
         ];
@@ -116,17 +115,15 @@ class ReservasController extends AdminController
         $validation->setRules([
             'funcion_id' => 'required',
             'usuario_id' => 'required',
-            'fecha_hora' => 'required',
             'total' => 'required',
-            'status' => 'required',
         ]);
 
         //SI TODO ES CORRECTO CREAMOS LA RESERVA
         $data = [
             'funcion_id' => $this->request->getPost('funcion_id'),
             'usuario_id' => $this->request->getPost('usuario_id'),
-            'fecha_hora' => $this->request->getPost('fecha_hora'),
             'total' => $this->request->getPost('total'),
+            'butacas' => $this->request->getPost('butacas'),
             'status' => $this->request->getPost('status') ?? 'pendiente'
         ];
 

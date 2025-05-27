@@ -35,7 +35,7 @@ class UsuarioModel extends Model
 
         ));
 
-        if ($result != false && password_verify($password, $result['contrasena'])) {
+        if ($result != false && password_verify($password, $result['password'])) {
             return $result;
         } else {
             return false;

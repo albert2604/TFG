@@ -63,12 +63,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Filas: <strong><span id="valFilas"><?= $sala->getNumeroFilas() ?></span></strong></label>
-                            <input type="range" class="form-range" id="numero_filas" name="numero_filas" min="1" max="10" value="<?= $sala->getNumeroFilas() ?>">
+                            <input type="range" class="form-range" id="numero_filas" name="numero_filas" min="1" max="11" value="<?= $sala->getNumeroFilas() ?>">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Columnas: <strong><span id="valColumnas"><?= $sala->getNumeroColumnas() ?></span></strong></label>
-                            <input type="range" class="form-range" id="numero_columnas" name="numero_columnas" min="1" max="10" value="<?= $sala->getNumeroColumnas() ?>">
+                            <input type="range" class="form-range" id="numero_columnas" name="numero_columnas" min="1" max="11" value="<?= $sala->getNumeroColumnas() ?>">
                         </div>
 
                         <div class="d-grid gap-2">

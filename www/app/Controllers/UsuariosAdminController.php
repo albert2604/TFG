@@ -51,7 +51,7 @@ class UsuariosAdminController extends AdminController
             'nombre' => $this->request->getPost('nombre'),
             'apellidos' => $this->request->getPost('apellidos'),
             'email' => $this->request->getPost('email'),
-            'contrasena' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'telefono' => $this->request->getPost('telefono'),
             'rol' => $this->request->getPost('rol'),
             'status' => $this->request->getPost('status')
@@ -110,7 +110,7 @@ class UsuariosAdminController extends AdminController
 
         // Si nos mandan password, lo cambiamos
         if($this->request->getPost('password') != ''){
-            $data['contrasena'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+            $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
 
         $user = $this->usuarioModel->editarUsuario($id, $data);

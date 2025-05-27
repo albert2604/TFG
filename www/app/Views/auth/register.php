@@ -21,7 +21,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('auth/register') ?>" method="post">
+                    <form action="<?= base_url('auth/doRegister') ?>" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">

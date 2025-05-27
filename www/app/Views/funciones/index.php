@@ -62,7 +62,7 @@
                                    class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('funciones/editar/' . $funcion->getId()) ?>" 
+                                <a href="<?= base_url('funciones/admin/editar/' . $funcion->getId()) ?>" 
                                    class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>

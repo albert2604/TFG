@@ -48,7 +48,7 @@
 
                         <div class="mb-3">
                             <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
+                            <select class="form-select" id="status" name="status">
                                 <option value="activo" <?= $cine->estaActivo() ? 'selected' : '' ?>>Activo</option>
                                 <option value="eliminado" <?= !$cine->estaActivo() ? 'selected' : '' ?>>Eliminado</option>
                             </select>

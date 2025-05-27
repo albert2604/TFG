@@ -35,7 +35,7 @@
                 <li class="nav-item"><a class="nav-link" href="/salas/admin/list">Salas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/reservas/admin/list">Reservas</a></li>
                 <?php if (session()->get('isLoggedIn')): ?>
-                    <li class="nav-item"><a class="nav-link" href="/mis-reservas">Mis reservas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reservas/mis-reservas">Mis reservas</a></li>
                 <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="/usuarios/admin/list">Usuarios</a></li>
                 <?php if (session()->get('isLoggedIn')): ?>
@@ -54,5 +54,9 @@
     <?= $this->renderSection('content') ?>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-wizard@0.0.5" >
+</script>
+
+
 </body>
 </html> 
