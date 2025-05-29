@@ -21,6 +21,8 @@
         </div>
     <?php endif; ?>
 
+    <input type="text" id="buscador" class="form-control mb-3" placeholder="Buscar en la tabla...">
+
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -49,17 +51,17 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="<?= base_url('usuarios/admin/ver/' . $usuario->getId()) ?>" 
-                                   class="btn btn-sm btn-info">
+                                <a href="<?= base_url('usuarios/admin/ver/' . $usuario->getId()) ?>"
+                                    class="btn btn-sm btn-info">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('usuarios/admin/editar/' . $usuario->getId()) ?>" 
-                                   class="btn btn-sm btn-warning">
+                                <a href="<?= base_url('usuarios/admin/editar/' . $usuario->getId()) ?>"
+                                    class="btn btn-sm btn-warning">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="<?= base_url('usuarios/admin/doEliminar/' . $usuario->getId()) ?>" 
-                                   class="btn btn-sm btn-danger">
-                                    <i class="fa fa-edit"></i>
+                                <a href="<?= base_url('usuarios/admin/doEliminar/' . $usuario->getId()) ?>"
+                                    class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             </div>
                         </td>
@@ -69,4 +71,8 @@
         </table>
     </div>
 </div>
-<?= $this->endSection() ?> 
+
+<?= $this->endSection() ?>
+<?= $this->section('view_js') ?>
+<script src="/js/buscador.js"></script>
+<?= $this->endSection() ?>

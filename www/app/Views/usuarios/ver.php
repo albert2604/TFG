@@ -44,14 +44,14 @@
                             </dl>
                         </div>
                     </div>
-                    <?php if($usuario->getRol() == "admin"):?>
+                    <?php if (session()->get('usuario_rol') == "admin"): ?>
                         <div class="mt-4">
                             <a href="<?= base_url('usuarios/admin/editar/' . $usuario->getId()) ?>" 
                             class="btn btn-primary">
                                 <i class="fas fa-edit"></i> Editar Usuario
                             </a>
                             <a href="<?= base_url('usuarios/admin/list') ?>" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                                <i class="fas fa-arrow-left"></i> Listado de Usuarios
                             </a>
                         </div>
                     <?php endif;?>

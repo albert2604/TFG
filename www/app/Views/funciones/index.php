@@ -55,7 +55,7 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="badge <?= $funcion->estaActivo() ? 'bg-success' : 'bg-danger' ?>">
-                                <?= $funcion->estaActivo() ? 'Activa' : 'Eliminado' ?>
+                                <?= $funcion->estaActivo() ? 'Activo' : 'Eliminado' ?>
                             </span>
                             <div class="btn-group">
                                 <a href="<?= base_url('funciones/admin/ver/' . $funcion->getId()) ?>" 

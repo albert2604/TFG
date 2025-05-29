@@ -173,7 +173,6 @@
     }
 
     function actualizar() {
-        // También puedes actualizar los inputs hidden si lo necesitas
         document.getElementById("filas_excluidas").value = filasExcluidas.join(',');
         document.getElementById("columnas_excluidas").value = columnasExcluidas.join(',');
 
@@ -193,10 +192,9 @@
     function excluirColumna(index) {
         const i = columnasExcluidas.indexOf(index);
         if (i === -1) {
-            columnasExcluidas.push(index); // excluir
+            columnasExcluidas.push(index); 
         } else {
-            columnasExcluidas.splice(i, 1); // desexcluir
-        }
+            columnasExcluidas.splice(i, 1);         }
         actualizar();
     }
 
@@ -218,11 +216,9 @@
         // Actualizar el input hidden
         document.getElementById("butacas_excluidas").value = JSON.stringify(butacasExcluidas);
 
-        // Redibujar
         dibujarSala();
     }
 
-    // Listeners
     filasSlider.addEventListener("input", dibujarSala);
     columnasSlider.addEventListener("input", dibujarSala);
 

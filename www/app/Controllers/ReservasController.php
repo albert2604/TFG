@@ -24,68 +24,20 @@ class ReservasController extends AdminController
     public function index()
     {
         $reservas = $this->reservaModel->getReservas();
-        return view('reservas/index', ['reservas' => $reservas]);
+        $funciones = $this->funcionModel->getFunciones();
+        return view('reservas/index', ['reservas' => $reservas, 'funciones' => $funciones]);
     }
 
-    public function misReservas()
+    public function misReservas($id)
     {
         
-        $reserva = $this->reservaModel->getReservas();
+        $reserva = $this->reservaModel->getReservaById($id);
         $funcion = $this->funcionModel->getFunciones();
-        $usuario = $this->usuarioModel->getUsuarios();
-
         if (!$reserva) {
             return redirect()->to('/reservas/admin/list')->with('error', 'Reserva no encontrado');
         }
 
-        return view('reservas/mis_reservas', ['reservas' => new Reserva($reserva), 'funciones' => $funcion, 'usuarios' => $usuario]);
-    }
-
-    public function crear()
-    {
-
-        $funciones = $this->funcionModel->getFunciones();
-        $usuarios = $this->usuarioModel->getUsuarios();
-
-        return view('reservas/crear', ['funciones' => $funciones, 'usuarios' => $usuarios]);
-    }
-
-    public function doCrear()
-    {
-        //VALIDAMOS LA ENTRADA DE LA RESERVA
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'funcion_id' => 'required',
-            'usuario_id' => 'required',
-            'butacas' => 'required',
-            'total' => 'required',
-        ]);
-
-        //SI FALLA MOSTRAMOS ERROR
-        if (!$validation->withRequest($this->request)->run()) {
-            $funciones = $this->funcionModel->getFunciones();
-            $usuarios = $this->usuarioModel->getUsuarios();
-            return view('reservas/crear', [
-                'validation' => $validation,
-                'funciones' => $funciones,
-                'usuarios' => $usuarios
-            ]);
-        }
-        
-
-        //SI TODO ES CORRECTO CREAMOS LA RESRVA
-        $data = [
-            'funcion_id' => $this->request->getPost('funcion_id'),
-            'usuario_id' => $this->request->getPost('usuario_id'),
-            'butacas' => $this->request->getPost('butacas'),
-            'total' => $this->request->getPost('total'),
-            'status' => $this->request->getPost('status') ?? 'pendiente'
-        ];
-
-        $reserva = $this->reservaModel->crearReserva($data);
-        if ($reserva['id']) {
-            return redirect()->to('/reservas/admin/list/');
-        }
+        return view('reservas/mis_reservas', ['reservas' => new Reserva($reserva), 'funciones' => $funcion]);
     }
 
     public function editar($id)
@@ -98,7 +50,7 @@ class ReservasController extends AdminController
             return redirect()->to('/reservas/admin/list')->with('error', 'Reserva no encontrado');
         }
 
-        return view('reservas/editar', ['reservas' => new Reserva($reserva), 'funciones' => $funcion, 'usuarios' => $usuario]);
+        return view('reservas/editar', ['reserva' => new Reserva($reserva), 'funciones' => $funcion, 'usuarios' => $usuario]);
     }
 
     public function doEditar($id)
@@ -106,7 +58,7 @@ class ReservasController extends AdminController
         $reserva = $this->reservaModel->getReservaById($id);
 
         if (!$reserva) {
-            return redirect()->to('/reservas')->with('error', 'Reserva no encontrada');
+            return redirect()->to('/reservas/admin/list')->with('error', 'Reserva no encontrada');
         }
 
 
@@ -131,7 +83,7 @@ class ReservasController extends AdminController
         if (!$validation->withRequest($this->request)->run()) {
             $funciones = $this->funcionModel->getFunciones();
             $usuarios = $this->usuarioModel->getUsuarios();
-            return view('reservas/crear', [
+            return view('reservas/admin/editar', [
                 'reserva' => new Reserva($data),
                 'validation' => $validation,
                 'funciones' => $funciones,
@@ -153,7 +105,7 @@ class ReservasController extends AdminController
             return redirect()->to('/reservas/admin/list')->with('error', 'Reserva no encontrado');
         }
 
-        $reserva = $this->reservaModel->eliminarReserva($id, ['status' => 'cancelada']);
+        $reserva = $this->reservaModel->eliminarReserva($id, ['status' => 'cancelada', 'butacas' => []]);
 
         if ($reserva['id']) {
             return redirect()->to('reservas/admin/list');

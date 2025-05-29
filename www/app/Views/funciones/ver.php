@@ -69,7 +69,7 @@
                                 <dd class="col-sm-8"><?= $funcion->getSala()->getCapacidad() ?> asientos</dd>
 
                                 <dt class="col-sm-4">Tipo:</dt>
-                                <dd class="col-sm-8"><?= $funcion->getSala()->getTipo() ?></dd>
+                                <dd class="col-sm-8"><?= $funcion->getSala()->getTipoSala() ?></dd>
 
                                 <dt class="col-sm-4">Cine:</dt>
                                 <dd class="col-sm-8">

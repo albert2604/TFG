@@ -26,6 +26,7 @@ class Reserva {
     public function getUsuarioId() { return $this->usuario_id; }
     public function getFuncionId() { return $this->funcion_id; }
     public function getButacas() { return $this->butacas; }
+    public function getArrayButacas() { return json_decode($this->butacas); }
     public function getStatus() { return $this->status; }
     public function getTotal() { return $this->total; }
 

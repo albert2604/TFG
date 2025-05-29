@@ -42,6 +42,7 @@
                         <td><?= $reserva->getFuncion()->getPelicula()->getTitulo() ?></td>
                         <td><?= $reserva->getFuncion()->getSala()->getNombre() ?></td>
                         <td><?= $reserva->getUsuario()->getNombreCompleto() ?></td>
+                        <td><?= $reserva->getFuncion()->getFechaFormateada() ?></td>
                         <td><?= $reserva->getTotalFormateado() ?></td>
                         <td>
                             <span class="badge <?= $reserva->estaCompletada() ? 'bg-success' : 'bg-warning' ?>">
@@ -50,19 +51,18 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="<?= base_url('reservas/ver/' . $reserva->getId()) ?>" 
+                                <a href="<?= base_url('reservas/admin/ver/' . $reserva->getId()) ?>" 
                                    class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('reservas/editar/' . $reserva->getId()) ?>" 
+                                <a href="<?= base_url('reservas/admin/editar/' . $reserva->getId()) ?>" 
                                    class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" 
-                                        class="btn btn-sm btn-danger"
-                                        onclick="confirmarEliminacion(<?= $reserva->getId() ?>)">
+                                <a href="<?= base_url('reservas/admin/doEliminar/' . $reserva->getId()) ?>" 
+                                   class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>

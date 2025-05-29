@@ -15,7 +15,8 @@
         "ext-mbstring": "*",
         "alantiller/directus-php-sdk": "v2.0.0-rc.1",
         "laminas/laminas-escaper": "^2.14",
-        "psr/log": "^3.0"
+        "psr/log": "^3.0",
+        "stripe/stripe-php": "^17.2"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.7",

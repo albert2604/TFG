@@ -54,7 +54,7 @@ class FuncionesController extends AdminController
         if (!$validation->withRequest($this->request)->run()) {
             $peliculas = $this->peliculaModel->getPelicula();
             $salas = $this->salaModel->getSalas();
-            return view('salas/crear', [
+            return view('funciones/crear', [
                 'validation' => $validation,
                 'salas' => $salas,
                 'peliculas' => $peliculas
@@ -128,7 +128,7 @@ class FuncionesController extends AdminController
         if (!$validation->withRequest($this->request)->run()) {
             $peliculas = $this->peliculaModel->getPelicula();
             $salas = $this->salaModel->getSalas();
-            return view('salas/crear', [
+            return view('funciones/editar', [
                 'funcion' => new Funcion($data),
                 'validation' => $validation,
                 'salas' => $salas,

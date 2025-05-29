@@ -47,15 +47,15 @@
                                 <dd class="col-sm-8"><?= $reserva->getUsuario()->getNombreCompleto() ?></dd>
 
                                 <dt class="col-sm-4">Fecha:</dt>
-                                <dd class="col-sm-8"><?= $reserva->getFechaReservaFormateada() ?></dd>
+                                <dd class="col-sm-8"><?=$reserva->getFuncion()->getFechaFormateada() ?></dd>
 
                                 <dt class="col-sm-4">Total:</dt>
                                 <dd class="col-sm-8"><?= $reserva->getTotalFormateado() ?></dd>
 
                                 <dt class="col-sm-4">Estado:</dt>
                                 <dd class="col-sm-8">
-                                    <span class="badge <?= $reserva->estaConfirmada() ? 'bg-success' : 'bg-warning' ?>">
-                                        <?= $reserva->getEstado() ?>
+                                    <span class="badge <?= $reserva->estaCompletada() ? 'bg-success' : 'bg-warning' ?>">
+                                        <?= $reserva->getStatus() ?>
                                     </span>
                                 </dd>
                             </dl>
@@ -89,7 +89,7 @@
                            class="btn btn-primary">
                             <i class="fas fa-edit"></i> Editar Reserva
                         </a>
-                        <a href="<?= base_url('reservas') ?>" class="btn btn-secondary">
+                        <a href="<?= base_url('reservas/admin/list') ?>" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver al Listado
                         </a>
                     </div>

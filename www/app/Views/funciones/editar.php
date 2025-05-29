@@ -76,8 +76,8 @@
 
                         <div class="mb-3">
                             <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" id="estado" name="estado">
-                                <option value="activo" <?= $funcion->estaActivo() ? 'selected' : '' ?>>Activa</option>
+                            <select class="form-select" id="status" name="status">
+                                <option value="activo" <?= $funcion->estaActivo() ? 'selected' : '' ?>>Activo</option>
                                 <option value="eliminado" <?= !$funcion->estaActivo() ? 'selected' : '' ?>>Eliminado</option>
                             </select>
                         </div>

@@ -31,6 +31,9 @@ $routes->post('usuarios/admin/doEditar/(:segment)', 'UsuariosAdminController::do
 // Rutas de usuarios (usuario)
 $routes->get('usuarios', 'UsuariosController::index');
 $routes->get('usuarios/ver/(:segment)', 'UsuariosController::ver/$1');
+$routes->get('reservar/', 'UsuariosController::crear');
+$routes->get('cartelera/', 'UsuariosController::verCartelera');
+$routes->get('cartelera/pelicula/(:segment)', 'UsuariosController::verPelicula/$1');
 
 // Rutas de película (admin)
 $routes->post('peliculas/admin/doCrear', 'PeliculasController::doCrear');
@@ -74,7 +77,7 @@ $routes->get('funciones/admin/doEliminar/(:segment)', 'FuncionesController::doEl
 
 // Rutas de reserevas (admin)
 $routes->get('reservas/admin/crear', 'ReservasController::crear');
-$routes->get('reservas/mis-reservas', 'ReservasController::misReservas');
+$routes->get('reservas/mis-reservas/(:segment)', 'ReservasController::misReservas/$1');
 $routes->get('reservas/admin/editar/(:segment)', 'ReservasController::editar/$1');
 $routes->post('reservas/admin/doEditar/(:segment)', 'ReservasController::doEditar/$1');
 $routes->get('reservas/admin/ver/(:segment)', 'ReservasController::ver/$1');
@@ -88,3 +91,9 @@ $routes->get('wizard/filtrar/(:segment)', 'WizardController::filtrarFunciones/$1
 $routes->get('wizard/filtrar/(:segment)/(:segment)', 'WizardController::filtrarFunciones/$1/$2');
 $routes->get('wizard/estructura/(:segment)/(:segment)', 'WizardController::obtenerEstructura/$1/$2');
 
+// Payments
+
+$routes->get('payment/(:segment)/create', 'PaymentController::checkout/$1');
+$routes->get('payment/(:segment)/success', 'PaymentController::success/$1');
+$routes->get('payment/(:segment)/cancel', 'PaymentController::cancel/$1');
+$routes->get('payment/(:segment)/webhook', 'PaymentController::webhook/$1');

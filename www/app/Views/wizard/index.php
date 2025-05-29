@@ -111,7 +111,6 @@
           <span class="d-none d-sm-inline">Seleccionar Pelicula</span>
         </a>
       </li>
-      <!-- end nav item -->
       <li class="nav-item" data-target-form="#salaForm">
         <a
           href="#sala"
@@ -121,7 +120,6 @@
         </a>
       </li>
 
-      <!-- end nav item -->
       <li class="nav-item" data-target-form="#butacaForm">
         <a
           href="#butaca"
@@ -130,7 +128,6 @@
           <span class="d-none d-sm-inline">Seleccionar Butacas</span>
         </a>
       </li>
-      <!-- end nav item -->
       <li class="nav-item">
         <a
           href="#finalizacion"
@@ -145,7 +142,6 @@
 
       <form id="multiStepForm" action="<?= base_url('wizard/doCrear') ?>" method="post">
 
-        <!-- Step 1: Personal Details -->
         <div class="form-step active" id="cineForm">
           <table class="table table-striped">
             <thead>
@@ -172,7 +168,6 @@
           <button type="button" class="btn btn-primary next-step">Siguiente</button>
         </div>
 
-        <!-- Step 2: Selección de Película -->
         <div class="form-step">
           <div class="mb-3">
             <label for="peliculaSelect" class="form-label">Selecciona una Película</label>
@@ -184,7 +179,6 @@
           <button type="button" class="btn btn-primary next-step">Siguiente</button>
         </div>
 
-        <!-- Step 3: Selección de Función -->
         <div class="form-step" id="funcionForm">
           <div class="mb-3">
             <label for="funcionSelect" class="form-label">Selecciona una Función</label>
@@ -196,7 +190,6 @@
           <button type="button" class="btn btn-primary next-step">Siguiente</button>
         </div>
 
-        <!-- Step 3: Selección de Butacas  -->
         <div class="form-step" id="butacasForm">
           <div class="mb-3 d-flex justify-content-center flex-column align-items-center">
             <input type="hidden" id="filas_excluidas" name="filas_excluidas" value="">
@@ -216,7 +209,6 @@
           <button type="button" class="btn btn-primary next-step">Siguiente</button>
         </div>
 
-        <!-- Step 4: Review and Submit -->
         <div class="form-step">
           <h4>Confirmacion</h4>
           <div class="review-info">
@@ -267,7 +259,7 @@
     JSON.parse(inputButacasSeleccionadas.value);
 
 
-  // Initialize dataLayer if not already initialized
+  // Inicializar dataLayer si aun no esta inicializado
   window.dataLayer = window.dataLayer || [];
 
   function seleccionarButaca(fila, columna) {
@@ -427,14 +419,12 @@
     }
   }
 
-  // Function to update progress bar
   function updateProgressBar() {
     const progress = ((currentStep + 1) / steps.length) * 100;
     progressBar.style.width = `${progress}%`;
     progressBar.setAttribute("aria-valuenow", progress);
   }
 
-  // Function to show the current step and send dataLayer event
   function showCurrentStep() {
 
     console.log(`Current Step: ${currentStep}`);
@@ -454,24 +444,20 @@
       }
     });
 
-    // Fire dataLayer event for each step
     window.dataLayer.push({
       'event': `form_step_${currentStep + 1}`
     });
 
     updateProgressBar();
   }
-  // Initialize first step visibility
   showCurrentStep();
 
-  // Next button event listeners
   nextBtns.forEach((button) => {
     button.addEventListener("click", () => {
 
       const currentInputs = steps[currentStep].querySelectorAll("input, select");
       let valid = true;
 
-      // Validate the current inputs
       currentInputs.forEach((input) => {
         if (!input.checkValidity()) {
           input.classList.add("is-invalid");
@@ -567,7 +553,6 @@
   // Add event listener for form submission to fire the generate_lead event
   document.getElementById("multiStepForm").addEventListener("submit", async function(e) {
     e.preventDefault(); // Prevent the default form submission for this example
-    // Fire generate_lead event in the dataLayer
     // Obtener el formulario
     const form = document.getElementById("multiStepForm");
     const actionUrl = form.action;
@@ -584,10 +569,9 @@
         method: 'POST',
         body: formData
       });
-
       if (response.ok) {
-       window.location.href = 'reservas/admin/list';
-        // Aquí puedes redirigir o mostrar un mensaje de éxito
+        const resultado = await response.json();
+        window.location.href = resultado.url;
       } else {
         console.error("Error en la respuesta del servidor");
       }

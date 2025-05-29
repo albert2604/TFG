@@ -105,7 +105,7 @@ class SalasController extends AdminController
             'cine_id' => $this->request->getPost('cine_id'),
             'nombre' => $this->request->getPost('nombre'),
             'tipo_sala' => $this->request->getPost('tipo_sala'),
-            'status' => $this->request->getPost('estado') ?? 'activo'
+            'status' => $this->request->getPost('status') ?? 'activo'
         ];
 
         //SI FALLA MOSTRAMOS ERROR

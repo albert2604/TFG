@@ -15,7 +15,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <form action="<?= base_url('reservas/editar/' . $reserva->getId()) ?>" method="post">
+                    <form action="<?= base_url('reservas/admin/doEditar/' . $reserva->getId()) ?>" method="post">
                         <div class="mb-3">
                             <label for="funcion_id" class="form-label">Función</label>
                             <select class="form-select" id="funcion_id" name="funcion_id" required>
@@ -48,7 +48,7 @@
                         <div class="mb-3">
                             <label for="fecha_hora" class="form-label">Fecha de Reserva</label>
                             <input type="datetime-local" class="form-control" id="fecha_hora" 
-                                   name="fecha_hora" value="<?= $reserva->getFechaReserva() ?>" required>
+                                   name="fecha_hora" value="<?= $reserva->getFuncion()->getFechaFormateada() ?>" required>
                         </div>
 
                         <div class="mb-3">

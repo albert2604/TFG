@@ -30,7 +30,8 @@ class WizardController extends LoggedController
     public function index()
     {
         $cines = $this->cineModel->getCines();
-        return view('wizard/index', ['cines' => $cines, 'usuario_id' => $this->loggedUser['usuario_id']]);
+        $reserva = $this->reservaModel->getReservas();
+        return view('wizard/index', ['cines' => $cines, 'reserva'=> $reserva, 'usuario_id' => $this->loggedUser['usuario_id']]);
     }
 
     public function filtrarFunciones($cineId, $peliculaId = null)
@@ -102,7 +103,9 @@ class WizardController extends LoggedController
 
         $reserva = $this->reservaModel->crearReserva($data);
         if ($reserva['id']) {
-            return redirect()->to('reservas/admin/list');
+            return $this->response->setJSON(array(
+                'url' => site_url('payment/'.$reserva['id'].'/create')
+            ));
         }
     }
 }
