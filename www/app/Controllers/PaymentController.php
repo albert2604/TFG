@@ -50,8 +50,8 @@ class PaymentController extends BaseController
 
     public function cancel($reservaId)
     {   
-        $this->reservaModel->editarReserva($reservaId, array('status' => 'cancelada'));
-        return view('payment_cancel');
+        $this->reservaModel->editarReserva($reservaId, array('status' => 'cancelada', 'butacas' => []));
+        return view('payments/payment_cancel');
     }
 
     public function webhook()

@@ -61,7 +61,7 @@
                                 </a>
 
                                 <a href="<?= base_url('salas/admin/doEliminar/' . $sala->getId()) ?>" class="btn btn-danger">
-                                <i class="fa fa-edit"></i> 
+                                <i class="fa fa-trash"></i> 
                             </a>
                             </div>
                         </td>

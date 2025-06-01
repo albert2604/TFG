@@ -2,7 +2,7 @@ from graphviz import Digraph
 
 # Crear un nuevo diagrama con dirección de arriba hacia abajo (Top to Bottom)
 dot = Digraph(comment='Diagrama ER ARCINEMA Vertical', format='png')
-dot.attr(rankdir='TB')  # Dirección de arriba hacia abajo
+dot.attr(rankdir='LR')  # Dirección de arriba hacia abajo
 
 # Nodos para las tablas
 dot.node('Cines', 'cines\n- id (PK)\n- nombre\n- direccion\n- ciudad\n- telefono\n- email\n- estado')

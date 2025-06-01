@@ -77,14 +77,13 @@ $routes->get('funciones/admin/doEliminar/(:segment)', 'FuncionesController::doEl
 
 // Rutas de reserevas (admin)
 $routes->get('reservas/admin/crear', 'ReservasController::crear');
-$routes->get('reservas/mis-reservas/(:segment)', 'ReservasController::misReservas/$1');
 $routes->get('reservas/admin/editar/(:segment)', 'ReservasController::editar/$1');
 $routes->post('reservas/admin/doEditar/(:segment)', 'ReservasController::doEditar/$1');
 $routes->get('reservas/admin/ver/(:segment)', 'ReservasController::ver/$1');
 $routes->get('reservas/admin/list', 'ReservasController::index');
 $routes->get('reservas/admin/doEliminar/(:segment)', 'ReservasController::doEliminar/$1');
 
-
+//Wizard
 $routes->get('wizard', 'WizardController::index');
 $routes->post('wizard/doCrear', 'WizardController::doCrear');
 $routes->get('wizard/filtrar/(:segment)', 'WizardController::filtrarFunciones/$1');
@@ -92,8 +91,8 @@ $routes->get('wizard/filtrar/(:segment)/(:segment)', 'WizardController::filtrarF
 $routes->get('wizard/estructura/(:segment)/(:segment)', 'WizardController::obtenerEstructura/$1/$2');
 
 // Payments
-
 $routes->get('payment/(:segment)/create', 'PaymentController::checkout/$1');
 $routes->get('payment/(:segment)/success', 'PaymentController::success/$1');
 $routes->get('payment/(:segment)/cancel', 'PaymentController::cancel/$1');
 $routes->get('payment/(:segment)/webhook', 'PaymentController::webhook/$1');
+

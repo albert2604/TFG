@@ -8,6 +8,7 @@ use App\Models\SalaModel;
 use App\Models\FuncionModel;
 use App\Models\UsuarioModel;
 use App\Models\ReservaModel;
+use App\Models\PeliculaModel;
 
 
 class WizardController extends LoggedController
@@ -17,6 +18,7 @@ class WizardController extends LoggedController
     protected $funcionModel;
     protected $usuarioModel;
     protected $reservaModel;
+    protected $peliculaModel;
 
     public function __construct()
     {
@@ -26,12 +28,15 @@ class WizardController extends LoggedController
         $this->funcionModel = new FuncionModel();
         $this->usuarioModel = new UsuarioModel();
         $this->reservaModel = new ReservaModel();
+        $this->peliculaModel = new PeliculaModel();
     }
     public function index()
     {
         $cines = $this->cineModel->getCines();
+        $peliculas = $this->peliculaModel->getPelicula();
+        $funciones = $this->funcionModel->getFunciones();
         $reserva = $this->reservaModel->getReservas();
-        return view('wizard/index', ['cines' => $cines, 'reserva'=> $reserva, 'usuario_id' => $this->loggedUser['usuario_id']]);
+        return view('wizard/index', ['cines' => $cines, 'reserva'=> $reserva, 'peliculas'=> $peliculas,'funciones'=> $funciones,'usuario_id' => $this->loggedUser['usuario_id']]);
     }
 
     public function filtrarFunciones($cineId, $peliculaId = null)

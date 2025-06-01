@@ -45,22 +45,33 @@
                         <td><?= $reserva->getFuncion()->getFechaFormateada() ?></td>
                         <td><?= $reserva->getTotalFormateado() ?></td>
                         <td>
-                            <span class="badge <?= $reserva->estaCompletada() ? 'bg-success' : 'bg-warning' ?>">
+                            <?php
+                            $claseBadge = 'bg-danger';
+
+                            if ($reserva->estaCompletada()) {
+                                $claseBadge = 'bg-success';
+                            } elseif ($reserva->estaPendiente()) {
+                                $claseBadge = 'bg-warning';
+                            }
+                            ?>
+
+                            <span class="badge <?= $claseBadge ?>">
                                 <?= $reserva->getStatus() ?>
                             </span>
+                           
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="<?= base_url('reservas/admin/ver/' . $reserva->getId()) ?>" 
-                                   class="btn btn-sm btn-info">
+                                <a href="<?= base_url('reservas/admin/ver/' . $reserva->getId()) ?>"
+                                    class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="<?= base_url('reservas/admin/editar/' . $reserva->getId()) ?>" 
-                                   class="btn btn-sm btn-warning">
+                                <a href="<?= base_url('reservas/admin/editar/' . $reserva->getId()) ?>"
+                                    class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="<?= base_url('reservas/admin/doEliminar/' . $reserva->getId()) ?>" 
-                                   class="btn btn-sm btn-danger">
+                                <a href="<?= base_url('reservas/admin/doEliminar/' . $reserva->getId()) ?>"
+                                    class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
@@ -73,10 +84,10 @@
 </div>
 
 <script>
-function confirmarEliminacion(id) {
-    if (confirm('¿Está seguro de que desea eliminar esta reserva?')) {
-        window.location.href = '<?= base_url('reservas/eliminar/') ?>' + id;
+    function confirmarEliminacion(id) {
+        if (confirm('¿Está seguro de que desea eliminar esta reserva?')) {
+            window.location.href = '<?= base_url('reservas/eliminar/') ?>' + id;
+        }
     }
-}
 </script>
-<?= $this->endSection() ?> 
+<?= $this->endSection() ?>

@@ -28,18 +28,6 @@ class ReservasController extends AdminController
         return view('reservas/index', ['reservas' => $reservas, 'funciones' => $funciones]);
     }
 
-    public function misReservas($id)
-    {
-        
-        $reserva = $this->reservaModel->getReservaById($id);
-        $funcion = $this->funcionModel->getFunciones();
-        if (!$reserva) {
-            return redirect()->to('/reservas/admin/list')->with('error', 'Reserva no encontrado');
-        }
-
-        return view('reservas/mis_reservas', ['reservas' => new Reserva($reserva), 'funciones' => $funcion]);
-    }
-
     public function editar($id)
     {
         $reserva = $this->reservaModel->getReservaById($id);

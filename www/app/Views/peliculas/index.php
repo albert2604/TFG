@@ -30,13 +30,13 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php foreach ($peliculas as $pelicula): ?>
             <div class="col">
-                <div class="card hover-card h-100">
+                <div class="card hover-card h-100 pelicula-card">
                     <?php if ($pelicula->getPosterUrl()): ?>
                         <?php if (session()->get('usuario_rol') == "admin"): ?>
 
-                            <a href="<?= base_url('peliculas/admin/ver/' . $pelicula->getId()) ?>"><img src="<?= $pelicula->getPosterUrl() ?>" class="card-img-top" style="height: 75vh;" alt="<?= $pelicula->getTitulo() ?>"></a>
+                            <a href="<?= base_url('peliculas/admin/ver/' . $pelicula->getId()) ?>"><img src="<?= $pelicula->getPosterUrl() ?>" class="card-img-top" style="height: 650px;" alt="<?= $pelicula->getTitulo() ?>"></a>
                         <?php else: ?>
-                            <a href="<?= base_url('cartelera/pelicula/' . $pelicula->getId()) ?>"><img src="<?= $pelicula->getPosterUrl() ?>" class="card-img-top" style="height: 75vh;" alt="<?= $pelicula->getTitulo() ?>"></a>
+                            <a href="<?= base_url('cartelera/pelicula/' . $pelicula->getId()) ?>"><img src="<?= $pelicula->getPosterUrl() ?>" class="card-img-top" style="height: 650px;" alt="<?= $pelicula->getTitulo() ?>"></a>
                         <?php endif; ?>
                     <?php else: ?>
                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 300px;">

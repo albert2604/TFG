@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use CodeIgniter\Exceptions\PageNotFoundException;
 class LoggedController extends BaseController
 {
     protected $loggedUser;
@@ -15,7 +16,7 @@ class LoggedController extends BaseController
         ];
 
         if($this->loggedUser['isLoggedIn'] !== true){
-            die("403");
+           throw PageNotFoundException::forPageNotFound('¡Registrese para tener acceso!');
         }
     }
 

@@ -35,7 +35,10 @@ class Sala {
     public function getId() { return $this->id; }
     public function getCineId() { return $this->cine_id; }
     public function getNombre() { return $this->nombre; }
-    public function getCapacidad() { return $this->capacidad; }
+    public function getCapacidad()
+    {
+        return $this->calcularCapacidad();
+    }
     public function getTipoSala() { return $this->tipo_sala; }
     public function getNumeroColumnas() { return $this->numero_columnas; }
     public function getNumeroFilas() { return $this->numero_filas; }
@@ -60,11 +63,11 @@ class Sala {
     public function setNombre($nombre) { $this->nombre = $nombre; }
     public function setCapacidad($capacidad) { $this->capacidad = $capacidad; }
     public function setTipoSala($tipo_sala) { $this->tipo_sala = $tipo_sala; }
-    public function setNumeroColumnas($numero_columnas) { $this->$numero_columnas; }
-    public function setNumeroFilas($numero_filas) { $this->$numero_filas; }
-    public function setFilasExcluidas($filas_excluidas) { $this->$filas_excluidas; }
-    public function setColumnasExcluidas($columnas_excluidas) { $this->$columnas_excluidas; }
-    public function setButacasExcluidas($butacas_excluidas) { $this->$butacas_excluidas; }
+    public function setNumeroColumnas($numero_columnas) { $this->numero_columnas = $numero_columnas; }
+    public function setNumeroFilas($numero_filas) { $this->numero_filas = $numero_filas; }
+    public function setFilasExcluidas($filas_excluidas) { $this->filas_excluidas = $filas_excluidas; }
+    public function setColumnasExcluidas($columnas_excluidas) { $this->columnas_excluidas = $columnas_excluidas; }
+    public function setButacasExcluidas($butacas_excluidas) { $this->butacas_excluidas = $butacas_excluidas; }
 
     public function setStatus($status) { $this->status = $status; }
 
@@ -91,4 +94,31 @@ class Sala {
     public function es3D() {
         return $this->tipo_sala === '3d';
     }
+    public function calcularCapacidad()
+{
+
+    $filasExcluidas = array_filter(array_map('intval', explode(',', $this->filas_excluidas)));
+    $columnasExcluidas = array_filter(array_map('intval', explode(',', $this->columnas_excluidas)));
+
+    $butacasExcluidas = json_decode($this->butacas_excluidas, true) ?: [];
+
+    $filasActivas = $this->numero_filas - count($filasExcluidas);
+    $columnasActivas = $this->numero_columnas - count($columnasExcluidas);
+
+    $capacidad = $filasActivas * $columnasActivas;
+
+    foreach ($butacasExcluidas as $butaca) {
+        $fila = isset($butaca['fila']) ? intval($butaca['fila']) : null;
+        $columna = isset($butaca['columna']) ? intval($butaca['columna']) : null;
+
+        if ($fila !== null && $columna !== null) {
+            if (!in_array($fila, $filasExcluidas) && !in_array($columna, $columnasExcluidas)) {
+                $capacidad--;
+            }
+        }
+    }
+
+    return max(0, $capacidad);
+}
+
 } 

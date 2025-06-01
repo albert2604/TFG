@@ -74,9 +74,6 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <?php if (session()->get('isLoggedIn')): ?>
-                                    <li><a class="dropdown-item" href="<?= base_url('reservas/mis-reservas/' . esc(session()->get('usuario_id'))) ?>">Mis reservas</a></li>
-                                <?php endif; ?>
                                 <li><a class="dropdown-item" href="/auth/logout">Cerrar sesión</a></li>
                             </ul>
                         </li>
