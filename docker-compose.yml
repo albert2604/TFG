@@ -33,6 +33,7 @@ services:
     volumes:
     #servira para enviar todo correctamente a la bbdd
       - ./data/mysql:/var/lib/mysql
+      - ./data/config/initdb:/docker-entrypoint-initdb.d
     environment:
     #variables de entorno que le voy a pasar y ya va estar preconfigurado
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -82,6 +83,9 @@ services:
     depends_on:
       bbdd:
         condition: service_healthy
+    command: >
+      sh -c "composer update --working-dir=/var/www/html &&
+            apache2-foreground"
 
 
      
